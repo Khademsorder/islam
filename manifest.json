@@ -1,0 +1,22 @@
+{
+    "name": "Islamic Knowledge Hub",
+    "short_name": "Knowledge Hub",
+    "description": "An AI-powered offline Islamic Knowledge application featuring Quran, Hadith, and Islamic QA.",
+    "start_url": "islamic.html",
+    "display": "standalone",
+    "background_color": "#1e293b",
+    "theme_color": "#0b5e42",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
