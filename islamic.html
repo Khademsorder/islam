@@ -1,0 +1,3745 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <script>
+    window.onerror = function (msg, url, lineNo, columnNo, error) {
+      alert("Error: " + msg + "\nLine: " + lineNo + "\nCol: " + columnNo);
+      return false;
+    };
+    window.addEventListener('unhandledrejection', function (event) {
+      alert("Promise Rejection: " + (event.reason && event.reason.message ? event.reason.message : event.reason));
+    });
+  </script>
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' data: blob: https:; script-src 'self' 'unsafe-inline' https://code.responsivevoice.org https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https:; media-src 'self' blob: data: https:; img-src 'self' data: blob: https:;">
+  <title>ইসলামিক জ্ঞান · আল্টিমেট এডিশন (v4.0)</title>
+
+  <!-- Fonts & Icons -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap"
+    rel="stylesheet">
+  <!-- ResponsiveVoice for TTS -->
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Add html2canvas for image generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- PWA & Native App Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b5e42" id="meta-theme-color">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="logo.png">
+
+  <style>
+    /* ==================================================
+       [1] PURE CSS VARIABLES & THEME ENGINE
+       ================================================== */
+    :root {
+      --bg-main: #f4f7f6;
+      --bg-surface: #ffffff;
+      --text-primary: #1f2937;
+      --text-secondary: #4b5563;
+      --border-color: #e5e7eb;
+      --accent-primary: #0b5e42;
+      --accent-hover: #084c35;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.1);
+      --mag-font-size: 16px;
+
+      /* Magazine 12 Color System (Light) */
+      --mag-1-bg: #e8f5e9;
+      --mag-1-border: #81c784;
+      --mag-2-bg: #fce4ec;
+      --mag-2-border: #f06292;
+      --mag-3-bg: #e3f2fd;
+      --mag-3-border: #64b5f6;
+      --mag-4-bg: #fff3e0;
+      --mag-4-border: #ffb74d;
+      --mag-5-bg: #f3e5f5;
+      --mag-5-border: #ba68c8;
+      --mag-6-bg: #e0f2f1;
+      --mag-6-border: #4db6ac;
+      --mag-7-bg: #fbe9e7;
+      --mag-7-border: #ff8a65;
+      --mag-8-bg: #f0f4c3;
+      --mag-8-border: #aed581;
+      --mag-9-bg: #ffebee;
+      --mag-9-border: #e57373;
+      --mag-10-bg: #e8eaf6;
+      --mag-10-border: #7986cb;
+      --mag-11-bg: #e0f7fa;
+      --mag-11-border: #4dd0e1;
+      --mag-12-bg: #fdf2f8;
+      --mag-12-border: #f472b6;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-surface: #1e293b;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --border-color: #334155;
+      --accent-primary: #10b981;
+      --accent-hover: #059669;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.5);
+
+      --mag-1-bg: #064e3b;
+      --mag-1-border: #059669;
+      --mag-2-bg: #1e3a8a;
+      --mag-2-border: #2563eb;
+      --mag-3-bg: #78350f;
+      --mag-3-border: #d97706;
+      --mag-4-bg: #4c1d95;
+      --mag-4-border: #7c3aed;
+      --mag-5-bg: #134e4a;
+      --mag-5-border: #0d9488;
+      --mag-6-bg: #7f1d1d;
+      --mag-6-border: #dc2626;
+      --mag-7-bg: #831843;
+      --mag-7-border: #e11d48;
+      --mag-8-bg: #334155;
+      --mag-8-border: #64748b;
+      --mag-9-bg: #3f6212;
+      --mag-9-border: #65a30d;
+      --mag-10-bg: #312e81;
+      --mag-10-border: #4f46e5;
+      --mag-11-bg: #0c4a6e;
+      --mag-11-border: #38bdf8;
+      --mag-12-bg: #831843;
+      --mag-12-border: #f472b6;
+    }
+
+    /* ==================================================[2] CORE STYLES & ANIMATIONS
+       ================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+      outline: none;
+      border: none;
+    }
+
+    .container {
+      margin: 0 auto;
+      padding: 0 16px;
+      max-width: 900px;
+    }
+
+    /* Animations */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInScale {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 0 0 rgba(11, 94, 66, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(11, 94, 66, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(11, 94, 66, 0);
+      }
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--bg-surface);
+      border-bottom: 2px solid var(--accent-primary);
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
+      animation: slideDown 0.5s ease;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-primary);
+    }
+
+    .icon-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 50%;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      background: var(--border-color);
+      transform: scale(1.1) rotate(5deg);
+      color: var(--accent-primary);
+    }
+
+    /* Search Bar */
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      border: 2px solid transparent;
+      border-radius: 50px;
+      padding: 6px 16px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+      transition: all 0.3s ease;
+      animation: fadeInScale 0.6s ease;
+    }
+
+    .search-wrapper:focus-within {
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .search-input {
+      flex: 1;
+      font-size: 16px;
+      background: transparent;
+      color: var(--text-primary);
+      padding: 12px 0;
+      width: 100%;
+    }
+
+    .action-btn {
+      background: var(--accent-primary);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(11, 94, 66, 0.3);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      background: var(--accent-hover);
+      box-shadow: 0 6px 16px rgba(11, 94, 66, 0.4);
+    }
+
+    #imageInput {
+      display: none;
+    }
+
+    .vision-indicator {
+      display: none;
+      padding: 6px 12px;
+      background: var(--mag-3-bg);
+      color: var(--text-primary);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      border: 1px solid var(--mag-3-border);
+      animation: slideDown 0.3s ease;
+    }
+
+    .mic-active {
+      color: #ef4444 !important;
+      animation: pulseGlow 1.5s infinite;
+    }
+
+    /* Category Scroll (Fixed & Draggable) */
+    .cat-scroll-container {
+      position: relative;
+      margin-bottom: 24px;
+      animation: slideUp 0.7s ease;
+    }
+
+    .cat-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      cursor: grab;
+    }
+
+    .cat-scroll:active {
+      cursor: grabbing;
+    }
+
+    .cat-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .cat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .cat-scroll::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 10px;
+    }
+
+    .cat-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    .cat-chip {
+      padding: 10px 20px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 50px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+      user-select: none;
+    }
+
+    .cat-chip:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-primary);
+    }
+
+    .cat-chip.active {
+      background: var(--accent-primary);
+      color: #fff;
+      border-color: var(--accent-primary);
+      box-shadow: 0 4px 12px rgba(11, 94, 66, 0.3);
+    }
+
+    .suggestion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .suggestion-card {
+      width: 100%;
+      min-height: 56px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.4;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: var(--shadow-sm);
+      word-break: break-word;
+    }
+
+    .suggestion-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Question Grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      padding-bottom: 40px;
+    }
+
+    .q-card {
+      background: var(--bg-surface);
+      padding: 20px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      animation: fadeInScale 0.5s ease backwards;
+    }
+
+    .q-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-primary);
+      box-shadow: var(--shadow-md);
+    }
+
+    .q-card span.material-symbols-rounded {
+      color: var(--accent-primary);
+      font-size: 36px;
+      transition: transform 0.3s ease;
+    }
+
+    .q-card:hover span.material-symbols-rounded {
+      transform: scale(1.1);
+    }
+
+    /* Gamified Loader */
+    .loader-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .loader-circle {
+      width: 70px;
+      height: 70px;
+      border: 6px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+      margin-bottom: 24px;
+    }
+
+    .loader-text {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .loader-subtext {
+      font-size: 16px;
+      color: #cbd5e1;
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ==================================================
+       [3] MAGAZINE RENDER ENGINE
+       ================================================== */
+    .result-area {
+      display: none;
+      margin-top: 20px;
+      padding-bottom: 60px;
+      animation: slideUp 0.6s ease;
+    }
+
+    .mag-section {
+      background: var(--bg-surface);
+      border-radius: 20px;
+      margin-bottom: 20px;
+      border-left: 8px solid;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease;
+    }
+
+    .mag-section:hover {
+      transform: translateX(4px);
+    }
+
+    .mag-header {
+      padding: 16px 20px;
+      font-weight: 800;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .mag-body {
+      padding: 20px;
+      font-size: var(--mag-font-size);
+      line-height: 1.8;
+    }
+
+    .mag-body ul {
+      margin-left: 24px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .mag-body li {
+      margin-bottom: 8px;
+    }
+
+    /* Dynamic Colors */
+    .color-1 {
+      background-color: var(--mag-1-bg);
+      border-left-color: var(--mag-1-border);
+    }
+    .color-2 {
+      background-color: var(--mag-2-bg);
+      border-left-color: var(--mag-2-border);
+    }
+    .color-3 {
+      background-color: var(--mag-3-bg);
+      border-left-color: var(--mag-3-border);
+    }
+    .color-4 {
+      background-color: var(--mag-4-bg);
+      border-left-color: var(--mag-4-border);
+    }
+    .color-5 {
+      background-color: var(--mag-5-bg);
+      border-left-color: var(--mag-5-border);
+    }
+    .color-6 {
+      background-color: var(--mag-6-bg);
+      border-left-color: var(--mag-6-border);
+    }
+    .color-7 {
+      background-color: var(--mag-7-bg);
+      border-left-color: var(--mag-7-border);
+    }
+    .color-8 {
+      background-color: var(--mag-8-bg);
+      border-left-color: var(--mag-8-border);
+    }
+    .color-9 {
+      background-color: var(--mag-9-bg);
+      border-left-color: var(--mag-9-border);
+    }
+    .color-10 {
+      background-color: var(--mag-10-bg);
+      border-left-color: var(--mag-10-border);
+    }
+    .color-11 {
+      background-color: var(--mag-11-bg);
+      border-left-color: var(--mag-11-border);
+    }
+    .color-12 {
+      background-color: var(--mag-12-bg);
+      border-left-color: var(--mag-12-border);
+    }
+
+    .arabic-text {
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      font-size: 32px;
+      line-height: 1.8;
+      text-align: right;
+      direction: rtl;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 12px;
+      margin: 16px 0;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    /* Action Bar */
+    .action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 2px dashed var(--border-color);
+    }
+
+    .btn-outline {
+      padding: 10px 20px;
+      border: 2px solid var(--border-color);
+      border-radius: 50px;
+      background: var(--bg-surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-primary);
+      color: #fff;
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ==================================================
+       [4] MODALS & TOGGLES
+       ================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: var(--bg-surface);
+      width: 92%;
+      max-width: 500px;
+      border-radius: 28px;
+      padding: 32px;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-overlay.show .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      background: var(--bg-main);
+      border-radius: 50%;
+      padding: 8px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #ef4444;
+      color: #fff;
+      transform: rotate(90deg);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      background: var(--bg-main);
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 15px;
+      transition: border 0.3s;
+      margin-bottom: 8px;
+    }
+
+    .form-input:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(11, 94, 66, 0.1);
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked+.slider {
+      background-color: var(--accent-primary);
+    }
+
+    input:checked+.slider:before {
+      transform: translateX(22px);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text-primary);
+      color: var(--bg-surface);
+      padding: 14px 28px;
+      border-radius: 50px;
+      transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 2000;
+      font-weight: bold;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      bottom: 32px;
+    }
+
+    /* ==================================================
+       [5] NATIVE APP UI COMPONENTS (PWA)
+       ================================================== */
+    body {
+      padding-bottom: 70px;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Bottom Navigation Bar (Mobile) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: var(--bg-surface);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+      z-index: 1000;
+      border-top: 1px solid var(--border-color);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      transition: background 0.3s;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s;
+      flex: 1;
+      padding: 8px 0;
+    }
+
+    .nav-item .material-symbols-rounded {
+      font-size: 24px;
+      margin-bottom: 4px;
+      transition: transform 0.3s;
+    }
+
+    .nav-item.active {
+      color: var(--accent-primary);
+    }
+
+    .nav-item.active .material-symbols-rounded {
+      font-variation-settings: 'FILL' 1;
+      transform: translateY(-2px);
+    }
+
+    /* Sidebar / Drawer */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(2px);
+    }
+
+    .sidebar-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 280px;
+      background: var(--bg-surface);
+      z-index: 2000;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sb-header {
+      padding: 24px;
+      background: var(--accent-primary);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-bottom-right-radius: 20px;
+      transition: background 0.3s;
+    }
+
+    .sb-content {
+      padding: 16px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .sb-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 16px;
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      transition: background 0.3s, color 0.3s;
+      cursor: pointer;
+    }
+
+    .sb-item:hover,
+    .sb-item.active {
+      background: var(--bg-main);
+      color: var(--accent-primary);
+    }
+
+    .sb-item .material-symbols-rounded {
+      color: var(--text-secondary);
+      transition: color 0.3s;
+    }
+
+    .sb-item:hover .material-symbols-rounded,
+    .sb-item.active .material-symbols-rounded {
+      color: var(--accent-primary);
+    }
+
+    /* System panel inside sidebar */
+    .system-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 16px;
+      margin-top: 20px;
+      box-shadow: var(--shadow-sm);
+      text-align: left;
+    }
+
+    .system-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .system-head h3 {
+      font-size: 16px;
+      color: var(--accent-primary);
+    }
+
+    .system-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      background: var(--bg-main);
+      color: var(--text-secondary);
+    }
+
+    .status-pill.ok {
+      color: #0f766e;
+      border-color: #99f6e4;
+      background: #ccfbf1;
+    }
+
+    .status-pill.warn {
+      color: #b45309;
+      border-color: #fde68a;
+      background: #fef3c7;
+    }
+
+    .status-pill.error {
+      color: #b91c1c;
+      border-color: #fecaca;
+      background: #fee2e2;
+    }
+
+    [data-theme="dark"] .status-pill.ok {
+      color: #99f6e4;
+      border-color: #134e4a;
+      background: #042f2e;
+    }
+
+    [data-theme="dark"] .status-pill.warn {
+      color: #fde68a;
+      border-color: #78350f;
+      background: #451a03;
+    }
+
+    [data-theme="dark"] .status-pill.error {
+      color: #fecaca;
+      border-color: #7f1d1d;
+      background: #450a0a;
+    }
+
+    .system-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .btn-mini {
+      padding: 8px 12px;
+      font-size: 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-main);
+      color: var(--text-primary);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-mini:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    .system-msg {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+
+  <!-- Sidebar (Drawer on Mobile, Fixed on PC) -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="UI.toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <img src="logo.png" alt="Logo"
+          style="width: 48px; height: 48px; border-radius: 12px; background: white; padding: 2px;">
+        <div>
+          <div style="font-size: 18px; font-weight: bold;">Islamic Hub</div>
+          <div style="font-size: 12px; opacity: 0.9;">v4.0 Premium Edition</div>
+        </div>
+      </div>
+    </div>
+    <div class="sb-content no-scrollbar">
+      <!-- Sidebar navigation items -->
+      <div class="sb-item active" onclick="window.location.href='islamic.html'">
+        <span class="material-symbols-rounded">home</span> মূল পাতা
+      </div>
+      <div class="sb-item" onclick="Logic.openQuranPage()">
+        <span class="material-symbols-rounded">menu_book</span> কুরআন ও হাদিস
+      </div>
+      <div class="sb-item" onclick="NamazModule.showNamazView(); UI.toggleSidebar();">
+        <span class="material-symbols-rounded">self_improvement</span> নামাজ শিক্ষা
+      </div>
+      <!-- New Q&A option -->
+      <div class="sb-item" onclick="Logic.showHomeView(); UI.toggleSidebar();">
+        <span class="material-symbols-rounded">help</span> প্রশ্নোত্তর
+      </div>
+      <div class="sb-item" onclick="UI.openModal('historyModal'); UI.toggleSidebar();">
+        <span class="material-symbols-rounded">history</span> ইতিহাস ও বুকমার্ক
+      </div>
+      <div class="sb-item" onclick="UI.openModal('settingsModal'); UI.toggleSidebar();">
+        <span class="material-symbols-rounded">settings</span> সেটিংস
+      </div>
+      <div style="height: 1px; background: var(--border-color); margin: 16px 0;"></div>
+      <div class="sb-item" onclick="UI.toggleTheme()">
+        <span class="material-symbols-rounded" id="sbThemeIcon">dark_mode</span> থিম পরিবর্তন
+      </div>
+
+      <!-- AI/Offline Toggle moved to sidebar -->
+      <div style="margin: 16px 0; padding: 12px; background: var(--bg-main); border-radius: 12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+          <span style="font-size:14px; font-weight:600;">অফলাইন উত্তর</span>
+          <label class="switch">
+            <input type="checkbox" id="aiToggle">
+            <span class="slider"></span>
+          </label>
+          <span style="font-size:14px; font-weight:600;">এআই</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-secondary);">এআই চালু থাকলে বিস্তারিত উত্তর পাবেন</div>
+      </div>
+
+      <!-- System Control Panel moved to sidebar -->
+      <div class="system-panel" id="systemPanel">
+        <div class="system-head">
+          <h3>সিস্টেম কন্ট্রোল প্যানেল</h3>
+          <span id="sysLastSync" style="font-size:12px; color:var(--text-secondary);">সিঙ্ক: -</span>
+        </div>
+        <div class="system-badges">
+          <span id="sysOnlineBadge" class="status-pill">নেটওয়ার্ক: চেকিং</span>
+          <span id="sysSwBadge" class="status-pill">অফলাইন ইঞ্জিন: চেকিং</span>
+          <span id="sysInstallBadge" class="status-pill">অ্যাপ ইনস্টল: চেকিং</span>
+          <span id="sysDataBadge" class="status-pill">ডাটা: চেকিং</span>
+        </div>
+        <div class="system-actions">
+          <button class="btn-mini" onclick="SystemHub.syncNow()"><span class="material-symbols-rounded"
+              style="font-size:16px;">sync</span> Sync Now</button>
+          <button class="btn-mini" id="installAppBtn" onclick="SystemHub.installApp()"><span
+              class="material-symbols-rounded" style="font-size:16px;">install_mobile</span> Install App</button>
+          <button class="btn-mini" onclick="SystemHub.warmOffline()"><span class="material-symbols-rounded"
+              style="font-size:16px;">download_for_offline</span> Offline Save</button>
+          <button class="btn-mini" onclick="SystemHub.resumeLastActivity()"><span class="material-symbols-rounded"
+              style="font-size:16px;">resume</span> Last Activity</button>
+        </div>
+        <div id="sysMessage" class="system-msg">সিস্টেম প্রস্তুত হচ্ছে...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar (Mobile) -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="window.location.href='islamic.html'">
+      <span class="material-symbols-rounded">home</span>
+      <span>হোম</span>
+    </div>
+    <div class="nav-item" onclick="Logic.openQuranPage()">
+      <span class="material-symbols-rounded">menu_book</span>
+      <span>কুরআন</span>
+    </div>
+    <div class="nav-item" onclick="NamazModule.showNamazView()">
+      <span class="material-symbols-rounded">self_improvement</span>
+      <span>নামাজ</span>
+    </div>
+    <div class="nav-item" onclick="UI.openModal('historyModal')">
+      <span class="material-symbols-rounded">bookmark</span>
+      <span>সেভড</span>
+    </div>
+    <div class="nav-item" onclick="UI.openModal('settingsModal')">
+      <span class="material-symbols-rounded">settings</span>
+      <span>সেটিংস</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        <button class="icon-btn menu-btn" onclick="UI.toggleSidebar()"
+          style="padding: 4px; margin-right: 4px; margin-left: -8px;">
+          <span class="material-symbols-rounded">menu</span>
+        </button>
+        <span class="material-symbols-rounded" style="color:var(--accent-primary);">mosque</span>
+        <span style="font-size: 18px;">ইসলামিক জ্ঞান</span>
+      </div>
+      <div class="header-actions" style="display: flex; gap: 4px; align-items: center;">
+        <button class="icon-btn" onclick="Logic.openQuranPage()" title="কুরআন ও হাদিস ভাণ্ডার">
+          <span class="material-symbols-rounded" style="color:var(--mag-3-border);">menu_book</span>
+        </button>
+        <button class="icon-btn" onclick="UI.toggleTheme()"><span class="material-symbols-rounded"
+            id="themeIcon">dark_mode</span></button>
+      </div>
+    </header>
+
+    <!-- Search & Vision Module (remaining on homepage) -->
+    <div style="text-align: center; margin-bottom: 32px;">
+      <p style="color: var(--text-secondary); margin-bottom: 16px; font-size: 15px; animation: slideDown 0.4s ease;">
+        প্রশ্ন করুন, দলিলভিত্তিক উত্তর জানুন (প্যারালাল AI ইঞ্জিন)</p>
+
+      <div class="search-wrapper">
+        <input type="text" id="searchInput" class="search-input"
+          placeholder="আপনার প্রশ্ন লিখুন (যেমন: ওযুর ফরজ কয়টি?)..." autocomplete="off">
+        <div id="visionIndicator" class="vision-indicator">📷 ছবি যুক্ত</div>
+        <button class="icon-btn" onclick="document.getElementById('imageInput').click()" title="ছবি আপলোড"><span
+            class="material-symbols-rounded">add_a_photo</span></button>
+        <input type="file" id="imageInput" accept="image/*" onchange="VisionProcessor.handleImage(event)">
+        <button class="icon-btn" id="micBtn" onclick="AIEngine.startVoice()" title="ভয়েস ইনপুট"><span
+            class="material-symbols-rounded">mic</span></button>
+        <button class="action-btn" onclick="Logic.handleSearch()"><span class="material-symbols-rounded">search</span>
+          খুঁজুন</button>
+      </div>
+    </div>
+
+    <!-- Categories (Scrollable & Draggable) -->
+    <div class="cat-scroll-container">
+      <div class="cat-scroll" id="catContainer"></div>
+    </div>
+
+    <!-- Question Grid -->
+    <div class="grid" id="qContainer"></div>
+
+    <!-- Namaz Shikkha Area -->
+    <div class="result-area" id="namazArea" style="display: none; padding-top: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <button class="btn-outline"
+          style="display: inline-flex; width: auto; padding: 6px 16px; border-color: var(--accent-primary);"
+          onclick="Logic.goBack()">
+          <span class="material-symbols-rounded">arrow_back</span> ফিরে যান
+        </button>
+        <span
+          style="font-size: 20px; font-weight: 800; color: var(--accent-primary); display:flex; align-items:center; gap:8px;">
+          <span class="material-symbols-rounded">mosque</span> নামাজ শিক্ষা
+        </span>
+      </div>
+
+      <!-- List of Prayers Grid -->
+      <div class="grid" id="namazListContainer"></div>
+
+      <!-- Individual Prayer Details -->
+      <div id="namazDetailContainer" style="display: none;"></div>
+    </div>
+
+    <!-- Results Area (Magazine Render) -->
+    <div class="result-area" id="resultArea">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <button class="btn-outline"
+          style="display: inline-flex; width: auto; padding: 6px 16px; border-color: var(--accent-primary);"
+          onclick="Logic.goBack()">
+          <span class="material-symbols-rounded">arrow_back</span> ফিরে যান
+        </button>
+        <div
+          style="display: flex; gap: 8px; background: var(--bg-surface); padding: 4px 12px; border-radius: 50px; border: 1px solid var(--border-color);">
+          <span
+            style="font-size: 13px; font-weight: bold; margin-right: 4px; display: flex; align-items: center;">ফন্ট:</span>
+          <button class="icon-btn" style="padding: 4px;" onclick="UI.changeFontSize(-1)" title="ছোট করুন"><span
+              class="material-symbols-rounded" style="font-size: 20px;">text_decrease</span></button>
+          <button class="icon-btn" style="padding: 4px;" onclick="UI.changeFontSize(1)" title="বড় করুন"><span
+              class="material-symbols-rounded" style="font-size: 20px;">text_increase</span></button>
+        </div>
+      </div>
+      <div
+        style="font-size: 26px; font-weight: 800; margin-bottom: 24px; color: var(--accent-primary); line-height: 1.4;"
+        id="resQuestionTitle"></div>
+      <div id="magazineContent"></div>
+
+      <!-- Smart Suggestions -->
+      <div
+        style="margin-top: 32px; background: var(--bg-surface); padding: 20px; border-radius: 20px; border: 1px solid var(--border-color);">
+        <h3
+          style="font-size: 16px; color: var(--text-secondary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+          <span class="material-symbols-rounded">lightbulb</span> সম্পর্কিত আরো প্রশ্ন:
+        </h3>
+        <div id="suggestionChips" class="suggestion-grid"></div>
+      </div>
+
+      <!-- Action Bar -->
+      <div class="action-bar" style="display:flex; flex-wrap:wrap; gap:8px;">
+        <button class="btn-outline" onclick="Logic.copyAns()"><span class="material-symbols-rounded">content_copy</span>
+          কপি</button>
+        <button class="btn-outline" onclick="Logic.shareAns()"><span class="material-symbols-rounded">share</span>
+          শেয়ার</button>
+        <button class="btn-outline" onclick="Logic.downloadAns()"><span class="material-symbols-rounded">download</span>
+          ডাউনলোড</button>
+        <button class="btn-outline" id="speakBtn" onclick="Logic.speakAns()"><span
+            class="material-symbols-rounded">volume_up</span> শুনুন</button>
+        <button class="btn-outline" onclick="Logic.saveBookmark()"><span
+            class="material-symbols-rounded">bookmark_add</span> সেভ</button>
+        <button class="btn-outline" id="expandOfflineBtn" onclick="Logic.expandOfflineAnswer()"
+          style="display:none; border-color:#2563eb; color:#2563eb;"><span
+            class="material-symbols-rounded">smart_toy</span> AI বিস্তারিত</button>
+        <button class="btn-outline" id="verifyBtn" onclick="Logic.verifyAns()"
+          style="border-color: var(--mag-6-border); color: var(--mag-6-border);"><span
+            class="material-symbols-rounded">verified</span> যাচাই</button>
+
+        <!-- Font Size Controls -->
+        <div
+          style="display:flex; align-items:center; background:var(--bg-main); border-radius:20px; padding:2px 4px; margin-left:auto;">
+          <button class="icon-btn" onclick="Logic.changeFontSize(-1)" style="padding:4px;" title="ফন্ট ছোট করুন"><span
+              class="material-symbols-rounded" style="font-size:18px;">text_decrease</span></button>
+          <button class="icon-btn" onclick="Logic.changeFontSize(1)" style="padding:4px;" title="ফন্ট বড় করুন"><span
+              class="material-symbols-rounded" style="font-size:18px;">text_increase</span></button>
+        </div>
+
+        <span
+          style="font-size: 13px; color: var(--text-secondary); align-self: center; background: var(--bg-main); padding: 4px 10px; border-radius: 20px;"
+          id="aiStats"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div class="loader-overlay" id="loader">
+    <div class="loader-circle"></div>
+    <div class="loader-text" id="loaderText">অপেক্ষা করুন...</div>
+    <div class="loader-subtext" id="loaderSubText">0.0s</div>
+    <div id="loaderQuote"
+      style="margin-top: 24px; font-size: 15px; color: #a7f3d0; font-style: italic; text-align: center; max-width: 80%; line-height: 1.5; font-weight: 500;">
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="UI.closeModal('settingsModal')"><span
+          class="material-symbols-rounded">close</span></button>
+      <h2 style="margin-bottom: 24px; display: flex; align-items: center; gap: 8px;"><span
+          class="material-symbols-rounded">tune</span> সেটিংস ও API</h2>
+
+      <!-- Parallel Execution Toggle (still in settings) -->
+      <div class="form-group toggle-container">
+        <div>
+          <label style="margin-bottom: 4px;">প্যারালাল এক্সিকিউশন (Parallel Mode)</label>
+          <span style="font-size: 12px; color: var(--text-secondary);">চালু থাকলে ৩টি API একসাথে কল হবে, যেটি আগে উত্তর
+            দেবে সেটি দেখানো হবে। বন্ধ থাকলে সিরিয়ালি ট্রাই করবে।</span>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="parallelToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label>Google Gemini (Primary)</label>
+        <input type="password" id="geminiKey" class="form-input" placeholder="API Key (AIzaSy...)">
+        <input type="text" id="geminiModel" class="form-input" value="gemini-1.5-flash" placeholder="Model Name">
+      </div>
+      <div class="form-group">
+        <label>OpenRouter (Fallback 1)</label>
+        <input type="password" id="orKey" class="form-input" placeholder="API Key (sk-or-v1-...)">
+        <input type="text" id="orModel" class="form-input" value="deepseek/deepseek-chat" placeholder="Model Name">
+      </div>
+      <div class="form-group">
+        <label>Grok / xAI (Fallback 2)</label>
+        <input type="password" id="grokKey" class="form-input" placeholder="API Key (xai-...)">
+        <input type="text" id="grokModel" class="form-input" value="grok-1" placeholder="Model Name">
+      </div>
+      <div style="display: flex; gap: 12px; margin-top: 12px;">
+        <button class="btn-outline" style="flex: 1; justify-content: center; color: #ef4444; border-color: #ef4444;"
+          onclick="StorageEngine.clearCache()">ক্যাশ মুছুন</button>
+        <button class="action-btn" style="flex: 2; justify-content: center; font-size: 16px; padding: 14px;"
+          onclick="StorageEngine.saveSettings()">সংরক্ষণ করুন</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="UI.closeModal('historyModal')"><span
+          class="material-symbols-rounded">close</span></button>
+      <h2 style="margin-bottom: 24px;">ইতিহাস ও বুকমার্ক</h2>
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+        <button class="btn-outline" style="flex:1; justify-content:center;"
+          onclick="UI.renderHistory('history')">ইতিহাস</button>
+        <button class="btn-outline" style="flex:1; justify-content:center;"
+          onclick="UI.renderHistory('bookmark')">বুকমার্ক</button>
+      </div>
+      <div id="historyList" style="max-height: 400px; overflow-y: auto; padding-right: 8px;"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="fileViewerModal">
+    <div class="modal-content" style="max-width: 760px;">
+      <button class="modal-close" onclick="UI.closeModal('fileViewerModal')"><span
+          class="material-symbols-rounded">close</span></button>
+      <h2 id="fileViewerTitle" style="margin-bottom: 16px;">ফাইল ভিউ</h2>
+      <pre id="fileViewerBody" class="json-viewer">লোড হচ্ছে...</pre>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"><span class="material-symbols-rounded">info</span> <span id="toastMsg">বার্তা</span>
+  </div>
+
+  <script src="quran-module.js"></script>
+  <script>
+    /**
+     * ==================================================
+     * ISLAMIC KNOWLEDGE HUB - ARCHITECTURE JS (v4.0)
+     * ==================================================
+     */
+
+    // ==========================================
+    // 1. DATA MODULE (Strict 800+ Questions)
+    // ==========================================
+    const DataModule = (function () {
+      const mod = {
+        categories: [],
+        questions: [],
+        questionMap: {},
+        lastLoadedAt: null,
+        loadData: async () => {
+          const safeLoadJson = async (file) => {
+            try {
+              const res = await fetch(file);
+              if (!res.ok) throw new Error(`${file} not found`);
+              return await res.json();
+            } catch (err) {
+              console.warn(`Failed to load ${file}`, err);
+              return null;
+            }
+          };
+
+          const toCatId = (id) => String(id || 'general').toLowerCase().replace(/[^\w\u0980-\u09FF]+/g, '_');
+          const categoryIndex = new Map();
+          const questionIndex = new Map();
+
+          const addCategory = (id, cat = {}) => {
+            const catId = toCatId(id);
+            if (!categoryIndex.has(catId)) {
+              const newCat = {
+                id: catId,
+                name: cat.name || id,
+                icon: cat.icon || 'help',
+                color: cat.color || '#10b981'
+              };
+              categoryIndex.set(catId, newCat);
+              mod.categories.push(newCat);
+            }
+            return categoryIndex.get(catId);
+          };
+
+          const addQuestion = (catId, qObj) => {
+            const qText = typeof qObj === 'string' ? qObj : qObj && qObj.q;
+            if (!qText || !qText.trim()) return;
+            const key = qText.trim();
+
+            if (questionIndex.has(key)) {
+              const existing = questionIndex.get(key);
+              if (!existing.a && qObj && typeof qObj !== 'string' && qObj.a) existing.a = qObj.a;
+              if (!existing.ref && qObj && typeof qObj !== 'string' && qObj.ref) existing.ref = qObj.ref;
+              return;
+            }
+
+            const obj = {
+              q: key,
+              c: catId,
+              a: typeof qObj === 'string' ? null : (qObj.a || null),
+              ref: typeof qObj === 'string' ? null : (qObj.ref || null)
+            };
+            mod.questions.push(obj);
+            mod.questionMap[key] = obj;
+            questionIndex.set(key, obj);
+          };
+
+          const ingestCategorySource = (src) => {
+            if (!src || typeof src !== 'object') return;
+            Object.keys(src).forEach(key => {
+              const cat = src[key];
+              if (!cat || typeof cat !== 'object' || !Array.isArray(cat.questions)) return;
+              const added = addCategory(key, cat);
+              cat.questions.forEach(qObj => addQuestion(added.id, qObj));
+            });
+          };
+
+          try {
+            const [ansData, namazData, questionData] = await Promise.all([
+              safeLoadJson('ans.json'),
+              safeLoadJson('namazshikkha.json'),
+              safeLoadJson('question.json')
+            ]);
+
+            window.IslamicData = ansData || {};
+            window.NamazData = namazData || null;
+            window.QuestionData = questionData || {};
+
+            mod.categories = [];
+            mod.questions = [];
+            mod.questionMap = {};
+
+            addCategory('all', { name: 'সব', icon: 'apps', color: '#6366f1' });
+            ingestCategorySource(ansData);
+            ingestCategorySource(questionData);
+            mod.lastLoadedAt = Date.now();
+
+            if (mod.categories.length <= 1) {
+              UIEngine.showToast("ডেটা আংশিক লোড হয়েছে। কিছু কনটেন্ট অনুপস্থিত থাকতে পারে।");
+            }
+            if (window.SystemHub && typeof window.SystemHub.refreshStatus === 'function') {
+              window.SystemHub.refreshStatus();
+            }
+          } catch (e) {
+            console.error("Unified data load failed", e);
+            UIEngine.showToast("ডেটা লোডে সমস্যা হয়েছে।");
+          }
+        }
+      };
+      return mod;
+    })();
+
+    const DIGIT_MAP = { '০': '0', '১': '1', '২': '2', '৩': '3', '৪': '4', '৫': '5', '৬': '6', '৭': '7', '৮': '8', '৯': '9' };
+    const toEnglishDigits = (value) => String(value || '').replace(/[০-৯]/g, d => DIGIT_MAP[d] || d);
+
+    function checkOfflineStatus() {
+      const isOnline = navigator.onLine;
+      const msg = isOnline ? "ইন্টারনেট সংযোগ সক্রিয়" : "অফলাইন মোড সক্রিয়";
+      console.log(msg);
+      return isOnline;
+    }
+
+    const AudioManager = {
+      currentAudio: null,
+      currentBlobUrl: null,
+      cacheName: 'islamic-audio-cache-v1',
+
+      getSurahId: (name) => {
+        const normalized = toEnglishDigits(String(name || '')).toLowerCase().replace(/\s+/g, ' ').trim();
+        const direct = normalized.match(/\d+/);
+        if (direct) {
+          const id = parseInt(direct[0], 10);
+          if (id >= 1 && id <= 114) return id;
+        }
+        const map = [
+          { regex: /\b(ফাতিহা|fatiha)\b/i, id: 1 },
+          { regex: /\b(বাকারা|বাক্বারা|baqarah|bakara)\b/i, id: 2 },
+          { regex: /\b(ইমরান|imran)\b/i, id: 3 },
+          { regex: /\b(নিসা|nisa)\b/i, id: 4 },
+          { regex: /\b(মায়েদা|maida)\b/i, id: 5 },
+          { regex: /\b(আনআম|anam)\b/i, id: 6 },
+          { regex: /\b(আরাফ|araf)\b/i, id: 7 },
+          { regex: /\b(আনফাল|anfal)\b/i, id: 8 },
+          { regex: /\b(তওবা|তাওবা|tawbah|tauba)\b/i, id: 9 },
+          { regex: /\b(ইউনুস|yunus)\b/i, id: 10 },
+          { regex: /\b(ইউসুফ|yusuf)\b/i, id: 12 },
+          { regex: /\b(ইব্রাহিম|ইব্রাহীম|ibrahim)\b/i, id: 14 },
+          { regex: /\b(কাহফ|kahf)\b/i, id: 18 },
+          { regex: /\b(মারইয়াম|maryam)\b/i, id: 19 },
+          { regex: /\b(ইয়াসিন|yasin|يس)\b/i, id: 36 },
+          { regex: /\b(রহমান|rahman)\b/i, id: 55 },
+          { regex: /\b(ওয়াকিয়া|waqiah)\b/i, id: 56 },
+          { regex: /\b(মুলক|mulk)\b/i, id: 67 },
+          { regex: /\b(ইনসান|insan)\b/i, id: 76 },
+          { regex: /\b(নাবা|naba)\b/i, id: 78 },
+          { regex: /\b(তাকাসুর|takasur)\b/i, id: 102 },
+          { regex: /\b(ইখলাস|ikhlas)\b/i, id: 112 },
+          { regex: /\b(ফালাক|falaq)\b/i, id: 113 },
+          { regex: /\b(নাস|nas)\b/i, id: 114 }
+        ];
+        for (let entry of map) {
+          if (entry.regex.test(normalized)) return entry.id;
+        }
+        return 1; // default
+      },
+
+      getCacheKey: (surahId, ayah) => `offline-audio://${surahId}:${ayah}`,
+
+      resolveAudioUrl: async (surahId, ayah) => {
+        if (window.IslamicModule && IslamicModule.Quran && IslamicModule.Quran.getAyah) {
+          const data = await IslamicModule.Quran.getAyah(surahId, ayah);
+          if (data && data.audio) return data.audio;
+        }
+        try {
+          const apiRes = await fetch(`https://api.alquran.cloud/v1/ayah/${surahId}:${ayah}/ar.alafasy`);
+          if (apiRes.ok) {
+            const parsed = await apiRes.json();
+            if (parsed && parsed.data && parsed.data.audio) return parsed.data.audio;
+          }
+        } catch (e) { }
+        return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${surahId * 1000 + parseInt(ayah, 10)}.mp3`;
+      },
+
+      getCachedResponse: async (surahId, ayah) => {
+        const cache = await caches.open(AudioManager.cacheName);
+        const key = AudioManager.getCacheKey(surahId, ayah);
+        return await cache.match(key);
+      },
+
+      setStatus: (statusId, text, isError = false) => {
+        if (!statusId) return;
+        const el = document.getElementById(statusId);
+        if (!el) return;
+        el.innerText = text;
+        el.style.color = isError ? '#dc2626' : 'var(--text-secondary)';
+      },
+
+      play: async (surahName, ayah, statusId) => {
+        const surahId = AudioManager.getSurahId(surahName);
+        const ayahNo = parseInt(toEnglishDigits(ayah), 10);
+        if (!ayahNo || ayahNo < 1) {
+          UIEngine.showToast("আয়াত নম্বর সঠিক নয়।");
+          return;
+        }
+
+        if (AudioManager.currentAudio) AudioManager.currentAudio.pause();
+        if (AudioManager.currentBlobUrl) {
+          URL.revokeObjectURL(AudioManager.currentBlobUrl);
+          AudioManager.currentBlobUrl = null;
+        }
+
+        try {
+          const cached = await AudioManager.getCachedResponse(surahId, ayahNo);
+          if (cached) {
+            const blob = await cached.blob();
+            const blobUrl = URL.createObjectURL(blob);
+            AudioManager.currentBlobUrl = blobUrl;
+            AudioManager.currentAudio = new Audio(blobUrl);
+            await AudioManager.currentAudio.play();
+            AudioManager.setStatus(statusId, "অফলাইন ক্যাশ থেকে প্লে হচ্ছে");
+            return;
+          }
+
+          if (!navigator.onLine) {
+            AudioManager.setStatus(statusId, "অফলাইন: আগে ডাউনলোড করা নেই", true);
+            UIEngine.showToast("অফলাইনে প্লে করতে আগে ডাউনলোড করুন।");
+            return;
+          }
+
+          const url = await AudioManager.resolveAudioUrl(surahId, ayahNo);
+          AudioManager.currentAudio = new Audio(url);
+          await AudioManager.currentAudio.play();
+          AudioManager.setStatus(statusId, "অনলাইনে প্লে হচ্ছে");
+        } catch (err) {
+          console.error(err);
+          AudioManager.setStatus(statusId, "অডিও চালানো যায়নি", true);
+          UIEngine.showToast("অডিও চালাতে সমস্যা হয়েছে।");
+        }
+      },
+
+      download: async (surahName, ayah, btnId, statusId) => {
+        const btn = document.getElementById(btnId);
+        const surahId = AudioManager.getSurahId(surahName);
+        const ayahNo = parseInt(toEnglishDigits(ayah), 10);
+        if (!ayahNo || ayahNo < 1) return;
+
+        try {
+          if (btn) {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-rounded">hourglass_top</span> নামছে...';
+          }
+          if (!navigator.onLine) throw new Error("offline");
+
+          const url = await AudioManager.resolveAudioUrl(surahId, ayahNo);
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("fetch-failed");
+
+          const cache = await caches.open(AudioManager.cacheName);
+          const key = AudioManager.getCacheKey(surahId, ayahNo);
+          await cache.put(key, res.clone());
+
+          if (btn) btn.innerHTML = '<span class="material-symbols-rounded">task_alt</span> সেভড';
+          AudioManager.setStatus(statusId, "অডিও সেভ হয়েছে, অফলাইনেও চলবে");
+          UIEngine.showToast("অডিও সেভ হয়েছে।");
+        } catch (error) {
+          console.error(error);
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span class="material-symbols-rounded">download_for_offline</span> সেভ করুন';
+          }
+          AudioManager.setStatus(statusId, "ডাউনলোড হয়নি", true);
+          UIEngine.showToast("ডাউনলোড হয়নি। ইন্টারনেট চেক করুন।");
+        }
+      }
+    };
+
+    const ContentEnricher = {
+      parse: (text) => {
+        if (!text) return "";
+
+        const escJs = (value) => String(value || '')
+          .replace(/\\/g, '\\\\')
+          .replace(/'/g, "\\'")
+          .replace(/\r?\n/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        let enriched = text;
+
+        const quranRegex = /(সূরা|সুরা|Surah)\s+([^\n:।,.]{1,40}?)(?:\s*[:ঃ]\s*|\s+(?:আয়াত|আয়াত|verse)\s*)([0-9০-৯]{1,3})/gi;
+        enriched = enriched.replace(quranRegex, (match, _, surahName, ayahRaw) => {
+          const ayahNo = parseInt(toEnglishDigits(ayahRaw), 10);
+          if (!ayahNo || ayahNo < 1) return match;
+
+          const cleanSurah = String(surahName || '').trim();
+          const safeSurah = escJs(cleanSurah);
+          const uidBase = `${cleanSurah}-${ayahNo}-${Math.random().toString(36).slice(2, 7)}`.replace(/[^\w\u0980-\u09FF-]/g, '_');
+          const btnId = `dl-${uidBase}`;
+          const statusId = `status-${uidBase}`;
+
+          return `
+          <div class="ref-audio-card">
+            <div class="ref-header">
+              <span class="material-symbols-rounded">menu_book</span>
+              <strong>${match}</strong>
+            </div>
+            <div class="ref-controls">
+              <button class="btn-play" onclick="AudioManager.play('${safeSurah}', ${ayahNo}, '${statusId}')">
+                <span class="material-symbols-rounded">play_circle</span> শুনুন
+              </button>
+              <button class="btn-download" id="${btnId}" onclick="AudioManager.download('${safeSurah}', ${ayahNo}, '${btnId}', '${statusId}')">
+                <span class="material-symbols-rounded">download_for_offline</span> সেভ করুন
+              </button>
+            </div>
+            <div id="${statusId}" class="status-text"></div>
+          </div>`;
+        });
+
+        const hadithRegex = /((?:সহীহ\s*)?(?:বুখার[ীি]|মুসলিম|তিরমি[জিযী]|আবু\s*দাউদ|নাসাঈ|ইবনে\s*মাজাহ|মুয়াত্তা|মুয়াত্তা|মুসনাদ\s*আহমদ)\s*[:：]?\s*[0-9০-৯]{1,5})/gi;
+        enriched = enriched.replace(hadithRegex, (match) => {
+          const parts = match.match(/((?:সহীহ\s*)?(?:বুখার[ীি]|মুসলিম|তিরমি[জিযী]|আবু\s*দাউদ|নাসাঈ|ইবনে\s*মাজাহ|মুয়াত্তা|মুয়াত্তা|মুসনাদ\s*আহমদ))\s*[:：]?\s*([0-9০-৯]{1,5})/i);
+          if (!parts) return match;
+          const book = parts[1].trim();
+          const number = toEnglishDigits(parts[2]);
+          const uidBase = `hadith-${book}-${number}-${Math.random().toString(36).slice(2, 7)}`.replace(/[^\w\u0980-\u09FF-]/g, '_');
+          const statusId = `status-${uidBase}`;
+          const safeBook = escJs(book);
+          const safeNumber = escJs(number);
+
+          return `
+          <div class="ref-audio-card hadith-ref-card">
+            <div class="ref-header">
+              <span class="material-symbols-rounded">library_books</span>
+              <strong>${match}</strong>
+            </div>
+            <div class="ref-controls">
+              <button class="btn-play" onclick="HadithVerifier.verify('${safeBook}', '${safeNumber}', '${statusId}')">
+                <span class="material-symbols-rounded">verified</span> রেফারেন্স যাচাই
+              </button>
+            </div>
+            <div id="${statusId}" class="status-text"></div>
+          </div>`;
+        });
+
+        const arabicBlockRegex = /<div class="arabic-text">([\s\S]*?)<\/div>/gi;
+        enriched = enriched.replace(arabicBlockRegex, (_, arabicHtml) => {
+          const plainArabic = String(arabicHtml || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+          if (!plainArabic) return `<div class="arabic-text">${arabicHtml}</div>`;
+          const uidBase = `arabic-${Math.random().toString(36).slice(2, 8)}`;
+          const statusId = `status-${uidBase}`;
+          const safeArabic = escJs(plainArabic);
+          return `
+          <div class="ref-audio-card arabic-ref-card">
+            <div class="ref-header">
+              <span class="material-symbols-rounded">translate</span>
+              <strong>আরবি টেক্সট</strong>
+            </div>
+            <div class="arabic-text" dir="rtl">${arabicHtml}</div>
+            <div class="ref-controls">
+              <button class="btn-play" onclick="ArabicAssist.play('${safeArabic}', '${statusId}')">
+                <span class="material-symbols-rounded">volume_up</span> আরবি শুনুন
+              </button>
+              <button class="btn-download" onclick="ArabicAssist.pronounce('${safeArabic}', '${statusId}')">
+                <span class="material-symbols-rounded">record_voice_over</span> উচ্চারণ
+              </button>
+            </div>
+            <div id="${statusId}" class="status-text"></div>
+          </div>`;
+        });
+
+        return enriched;
+      },
+
+      injectStyles: () => {
+        if (document.getElementById('content-enricher-style')) return;
+        const style = document.createElement('style');
+        style.id = 'content-enricher-style';
+        style.innerHTML = `
+          .ref-audio-card {
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent-primary);
+            border-radius: 12px;
+            padding: 12px;
+            margin: 12px 0;
+            background: var(--bg-surface);
+          }
+          .hadith-ref-card { border-left-color: #f59e0b; }
+          .arabic-ref-card { border-left-color: #7c3aed; }
+          .ref-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+          }
+          .ref-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+          }
+          .btn-play,
+          .btn-download {
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 6px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 13px;
+          }
+          .btn-download {
+            background: #e0f2fe;
+            color: #0284c7;
+            border-color: #bae6fd;
+          }
+          .status-text {
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.55;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    };
+
+    const ReferenceTools = {
+      findHadithRefs: (text) => {
+        const source = String(text || '');
+        const regex = /(?:সহীহ\s*)?(বুখার[ীি]|মুসলিম|তিরমি[জিযী]|আবু\s*দাউদ|নাসাঈ|ইবনে\s*মাজাহ|মুয়াত্তা|মুয়াত্তা|মুসনাদ\s*আহমদ)\s*[:：]?\s*([0-9০-৯]{1,5})/gi;
+        const rows = [];
+        let match;
+        while ((match = regex.exec(source)) !== null) {
+          const book = String(match[1] || '').trim();
+          const number = toEnglishDigits(match[2]);
+          const key = `${book}|${number}`;
+          if (!rows.find(x => `${x.book}|${x.number}` === key)) {
+            rows.push({ book, number });
+          }
+        }
+        return rows;
+      },
+
+      findQuranRefs: (text) => {
+        const source = String(text || '');
+        const regex = /(সূরা|সুরা|Surah)\s+([^\n:।,.]{1,40}?)(?:\s*[:ঃ]\s*|\s+(?:আয়াত|আয়াত|verse)\s*)([0-9০-৯]{1,3})/gi;
+        const rows = [];
+        let match;
+        while ((match = regex.exec(source)) !== null) {
+          const surah = String(match[2] || '').trim();
+          const ayah = toEnglishDigits(match[3]);
+          const key = `${surah}|${ayah}`;
+          if (!rows.find(x => `${x.surah}|${x.ayah}` === key)) {
+            rows.push({ surah, ayah });
+          }
+        }
+        return rows;
+      },
+
+      extractLines: (text, explicitRef) => {
+        const lines = [];
+        const source = String(text || '');
+        const refs = source.match(/(?:তথ্যসূত্র|সূত্র|রেফারেন্স)\s*[:：]\s*([^\n<]+)/gi) || [];
+        refs.forEach(line => lines.push(line.replace(/\*\*/g, '').trim()));
+        if (explicitRef) lines.push(`তথ্যসূত্র: ${String(explicitRef).trim()}`);
+
+        ReferenceTools.findHadithRefs(source).forEach(item => {
+          lines.push(`${item.book} ${item.number}`);
+        });
+        ReferenceTools.findQuranRefs(source).forEach(item => {
+          lines.push(`সূরা ${item.surah}: ${item.ayah}`);
+        });
+
+        return [...new Set(lines.filter(Boolean))];
+      }
+    };
+
+    const HadithVerifier = {
+      normalizeBook: (book) => {
+        const key = String(book || '').replace(/\s+/g, '').toLowerCase();
+        if (key.includes('বুখার')) return 'bukhari';
+        if (key.includes('মুসলিম')) return 'muslim';
+        if (key.includes('তিরমি')) return 'tirmidhi';
+        if (key.includes('আবুদাউদ')) return 'abudawud';
+        if (key.includes('নাসাঈ')) return 'nasai';
+        if (key.includes('ইবনেমাজাহ')) return 'ibnmajah';
+        if (key.includes('মুয়াত্তা') || key.includes('মুয়াত্তা')) return 'malik';
+        if (key.includes('মুসনাদআহমদ')) return 'ahmad';
+        return null;
+      },
+
+      getUrl: (book, number) => {
+        const id = HadithVerifier.normalizeBook(book);
+        const no = toEnglishDigits(number);
+        if (!id) return `https://sunnah.com/search?q=${encodeURIComponent(`${book} ${no}`)}`;
+        return `https://sunnah.com/${id}:${no}`;
+      },
+
+      verify: (book, number, statusId) => {
+        const url = HadithVerifier.getUrl(book, number);
+        if (statusId) {
+          const el = document.getElementById(statusId);
+          if (el) el.innerHTML = `যাচাই লিংক খোলা হয়েছে: <a href="${url}" target="_blank" rel="noopener">${book} ${number}</a>`;
+        }
+        window.open(url, '_blank', 'noopener');
+      }
+    };
+
+    const ArabicAssist = {
+      play: (text, statusId) => {
+        const value = String(text || '').trim();
+        if (!value) return;
+        try {
+          if (typeof responsiveVoice !== 'undefined') {
+            responsiveVoice.speak(value, "Arabic Male", { rate: 0.9 });
+          } else if ('speechSynthesis' in window) {
+            const u = new SpeechSynthesisUtterance(value);
+            u.lang = 'ar-SA';
+            u.rate = 0.9;
+            window.speechSynthesis.speak(u);
+          }
+          if (statusId) {
+            const el = document.getElementById(statusId);
+            if (el) el.innerText = 'আরবি অডিও চালু হয়েছে';
+          }
+        } catch (e) {
+          if (statusId) {
+            const el = document.getElementById(statusId);
+            if (el) el.innerText = 'আরবি অডিও চালানো যায়নি';
+          }
+        }
+      },
+
+      pronounce: async (text, statusId) => {
+        const value = String(text || '').trim();
+        const setStatus = (html) => {
+          if (!statusId) return;
+          const el = document.getElementById(statusId);
+          if (el) el.innerHTML = html;
+        };
+        if (!value) return;
+        if (!navigator.onLine) {
+          setStatus('উচ্চারণ দেখতে ইন্টারনেট প্রয়োজন');
+          return;
+        }
+
+        const key = localStorage.getItem('geminiKey');
+        const model = localStorage.getItem('geminiModel') || 'gemini-1.5-flash';
+        if (!key) {
+          setStatus('উচ্চারণ জেনারেট করতে Gemini API Key দিন');
+          return;
+        }
+
+        setStatus('উচ্চারণ জেনারেট হচ্ছে...');
+        try {
+          const prompt = `নিচের আরবি টেক্সটের শুধু বাংলা উচ্চারণ দাও, বাড়তি ব্যাখ্যা নয়:\n${value}`;
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.1 } })
+          });
+          const data = await res.json();
+          const pronunciation = data && data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]
+            ? String(data.candidates[0].content.parts[0].text || '').trim()
+            : '';
+          if (!pronunciation) throw new Error('pronunciation-empty');
+          setStatus(`<b>উচ্চারণ:</b> ${pronunciation}`);
+        } catch (e) {
+          setStatus('উচ্চারণ জেনারেট ব্যর্থ হয়েছে');
+        }
+      }
+    };
+
+
+    // ==========================================
+    // 2. NAMAZ MODULE & AUDIO ENGINE
+    // ==========================================
+    const NamazAudioEngine = (function () {
+      let currentAudio = null;
+
+      return {
+        play: (text, reference) => {
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+          }
+          if (Logic.isSpeaking) Logic.stopSpeak();
+
+          // Check if it's a Quranic reference
+          if (reference && reference.includes('কুরআন')) {
+            const match = reference.match(/কুরআন\s*(\d+):(\d+)-?(\d+)?/);
+            if (match) {
+              const surah = parseInt(match[1]);
+              const start = parseInt(match[2]);
+              const end = match[3] ? parseInt(match[3]) : start;
+              let current = start;
+
+              const playNext = async () => {
+                if (current > end) return;
+                UIEngine.showToast("ক্বারীর তিলাওয়াত লোড হচ্ছে...");
+                try {
+                  const res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${current}/ar.alafasy`);
+                  const data = await res.json();
+                  currentAudio = new Audio(data.data.audio);
+                  currentAudio.onended = () => { current++; playNext(); };
+                  currentAudio.play();
+                } catch (e) {
+                  UIEngine.showToast("নেটওয়ার্ক সমস্যা। টেক্সট-টু-স্পিচ চলছে...");
+                  fallbackTTS(text);
+                }
+              };
+              playNext();
+              return;
+            }
+          }
+
+          // Fallback / Non-Quranic: Use TTS
+          fallbackTTS(text);
+        },
+        stop: () => {
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+          }
+          if (Logic.isSpeaking) Logic.stopSpeak();
+        }
+      };
+
+      function fallbackTTS(text) {
+        const cleanText = text.replace(/<[^>]*>/g, '').replace(/[\u0600-\u06FF]/g, ' ').substring(0, 500);
+        if (typeof responsiveVoice !== 'undefined') {
+          Logic.isSpeaking = true;
+          responsiveVoice.speak(cleanText, "Bengali Female", { rate: 0.9, onend: () => Logic.isSpeaking = false });
+        } else if ('speechSynthesis' in window) {
+          Logic.isSpeaking = true;
+          const utterance = new SpeechSynthesisUtterance(cleanText);
+          utterance.lang = 'bn-BD';
+          utterance.rate = 0.9;
+          utterance.onend = () => Logic.isSpeaking = false;
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+    })();
+
+    const NamazModule = (function () {
+      let namazData = null;
+
+      const esc = (v) => String(v || '').replace(/'/g, "\\'");
+      const labelize = (k) => String(k || '').replace(/_/g, ' ');
+
+      const loadData = async () => {
+        if (window.NamazData) {
+          namazData = window.NamazData;
+          return true;
+        }
+        if (namazData) return true;
+        try {
+          const res = await fetch('namazshikkha.json');
+          namazData = await res.json();
+          return true;
+        } catch (e) {
+          console.error("Failed to load namazshikkha.json", e);
+          UIEngine.showToast("নামাজ শিক্ষার ডেটা লোড করতে ব্যর্থ হয়েছে।");
+          return false;
+        }
+      };
+
+      const showDetailHtml = (html) => {
+        document.getElementById('namazListContainer').style.display = 'none';
+        const detailContainer = document.getElementById('namazDetailContainer');
+        detailContainer.innerHTML = `
+          <div style="margin-bottom: 14px;">
+            <button class="btn-outline" style="display:inline-flex; width:auto; padding:6px 14px;" onclick="NamazModule.backToList()">
+              <span class="material-symbols-rounded">arrow_back</span> তালিকায় ফিরুন
+            </button>
+          </div>
+          ${html}
+        `;
+        detailContainer.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      const renderPrimitive = (value) => {
+        if (value === null || value === undefined) return '';
+        return `<div style="font-size: 14px; line-height: 1.6;">${value}</div>`;
+      };
+
+      const renderValue = (value, keyName = '') => {
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+          if (typeof value === 'string' && keyName === 'audio_url') {
+            return `
+              <div style="display:grid; gap:8px;">
+                <audio controls preload="none" src="${value}" style="width:100%;"></audio>
+                <a href="${value}" target="_blank" rel="noopener" class="btn-mini" style="width:fit-content; text-decoration:none;">অডিও লিংক</a>
+              </div>
+            `;
+          }
+          if (typeof value === 'string' && keyName === 'image_url') {
+            return `
+              <div style="display:grid; gap:8px;">
+                <img src="${value}" alt="Step Visual" style="max-width:100%; border-radius:12px; border:1px solid var(--border-color); background:var(--bg-main);" loading="lazy">
+                <a href="${value}" target="_blank" rel="noopener" class="btn-mini" style="width:fit-content; text-decoration:none;">ছবি খুলুন</a>
+              </div>
+            `;
+          }
+          return renderPrimitive(value);
+        }
+
+        if (Array.isArray(value)) {
+          if (!value.length) return '';
+          if (typeof value[0] === 'string' || typeof value[0] === 'number') {
+            return `<ul style="padding-left: 20px; margin: 0;">${value.map(v => `<li style="margin-bottom: 8px;">${v}</li>`).join('')}</ul>`;
+          }
+          return value.map((item, idx) => `
+            <div class="mag-section color-6" style="margin-bottom: 12px;">
+              <div class="mag-header">${labelize(keyName)} ${idx + 1}</div>
+              <div class="mag-body">${renderValue(item, keyName)}</div>
+            </div>
+          `).join('');
+        }
+
+        if (typeof value === 'object') {
+          if (value.arabic || value.transliteration || value.translation || value.meaning || value.pronunciation) {
+            return `
+              ${value.arabic ? `<div style="font-size: 22px; font-family: 'Amiri', serif; text-align: right; margin-bottom: 10px;" dir="rtl">${value.arabic}</div>` : ''}
+              ${value.transliteration ? `<div style="font-size: 14px; font-style: italic; color: var(--text-secondary); margin-bottom: 8px;">উচ্চারণ: ${value.transliteration}</div>` : ''}
+              ${value.pronunciation ? `<div style="font-size: 14px; font-style: italic; color: var(--text-secondary); margin-bottom: 8px;">উচ্চারণ: ${value.pronunciation}</div>` : ''}
+              ${value.translation ? `<div style="font-size: 15px; margin-bottom: 8px;">অর্থ: ${value.translation}</div>` : ''}
+              ${value.meaning ? `<div style="font-size: 15px; margin-bottom: 8px;">অর্থ: ${value.meaning}</div>` : ''}
+            `;
+          }
+
+          const skipKeys = ['name_bn', 'title', 'description', 'type', 'total_rakats', 'total_takbirs', 'notes', 'time', 'id'];
+          return Object.keys(value).filter(k => !skipKeys.includes(k)).map(k => `
+            <div style="margin-bottom: 10px;">
+              <div style="font-size: 13px; font-weight: 700; color: var(--accent-primary); margin-bottom: 5px;">${labelize(k)}</div>
+              ${renderValue(value[k], k)}
+            </div>
+          `).join('');
+        }
+
+        return '';
+      };
+
+      const renderStepCard = (stepInput) => {
+        const isObj = stepInput && typeof stepInput === 'object' && !Array.isArray(stepInput);
+        const stepKey = isObj ? stepInput.step_id : stepInput;
+        const stepDict = (typeof stepKey === 'string' && namazData.common_steps) ? namazData.common_steps[stepKey] : null;
+
+        if (!stepDict && !isObj) return '';
+
+        const title = (isObj && stepInput.name_bn) || (stepDict && stepDict.name_bn) || stepKey || 'ধাপ';
+        const refText = (stepDict && stepDict.reference) || (isObj && stepInput.reference) || '';
+        const content = (stepDict && stepDict.content) || (isObj ? stepInput.content : null);
+        const stepAudioUrl = (isObj && stepInput.audio_url) || (stepDict && stepDict.audio_url) || '';
+        const stepImageUrl = (isObj && stepInput.image_url) || (stepDict && stepDict.image_url) || '';
+        const safeAttr = (v) => String(v || '').replace(/"/g, '&quot;');
+
+        let contentHtml = '';
+        let playText = '';
+
+        if (typeof content === 'string') {
+          contentHtml = `<div style="font-size: 15px;">${content}</div>`;
+          playText = content;
+        } else if (content && typeof content === 'object') {
+          contentHtml = renderValue(content);
+          playText = content.translation || content.meaning || content.transliteration || title;
+          if (content.first && content.first.translation) {
+            playText = `${content.first.translation} ${content.second && content.second.translation ? content.second.translation : ''}`.trim();
+          }
+        } else {
+          contentHtml = `<div style="font-size: 15px;">${title}</div>`;
+          playText = title;
+        }
+
+        if (isObj && typeof stepInput.content === 'string') {
+          contentHtml = `<div style="font-size: 15px; font-weight: 700; color: var(--accent-primary);">${stepInput.content}</div>`;
+          playText = stepInput.content;
+        }
+
+        return `
+          <div class="mag-section color-8" style="margin-bottom: 16px;">
+            <div class="mag-header" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>${title}</span>
+              ${playText ? `<button class="icon-btn" style="color: white; padding: 4px; background: rgba(0,0,0,0.2); border-radius: 50%;" onclick="NamazAudioEngine.play('${esc(playText)}', '${esc(refText)}')" title="শুনুন"><span class="material-symbols-rounded" style="font-size: 20px;">volume_up</span></button>` : ''}
+            </div>
+            <div class="mag-body">
+              ${contentHtml}
+              ${stepImageUrl ? `<div style="margin-top:12px;"><img src="${safeAttr(stepImageUrl)}" alt="${safeAttr(title)}" loading="lazy" style="max-width:100%; border-radius:12px; border:1px solid var(--border-color); background:var(--bg-main);"></div>` : ''}
+              ${stepAudioUrl ? `<div style="margin-top:12px; display:grid; gap:8px;"><audio controls preload="none" src="${safeAttr(stepAudioUrl)}" style="width:100%;"></audio><a href="${safeAttr(stepAudioUrl)}" target="_blank" rel="noopener" class="btn-mini" style="width:fit-content; text-decoration:none;">অডিও লিংক</a></div>` : ''}
+              ${refText ? `<div style="margin-top: 12px; font-size: 12px; opacity: 0.8;"><b>দলিল:</b> ${refText}</div>` : ''}
+            </div>
+          </div>
+        `;
+      };
+
+      const renderRakatBlocks = (rakats) => {
+        if (!Array.isArray(rakats)) return '';
+        let html = '';
+        rakats.forEach((rakat, idx) => {
+          html += `<h3 style="font-size: 18px; margin: 24px 0 16px 0; border-bottom: 2px solid var(--border-color); padding-bottom: 8px;">রাকাত ${rakat.rakat_no || (idx + 1)}</h3>`;
+          const steps = Array.isArray(rakat.steps) ? rakat.steps : [];
+          steps.forEach(step => {
+            html += renderStepCard(step);
+          });
+        });
+        return html;
+      };
+
+      const renderList = () => {
+        if (!namazData) {
+          document.getElementById('namazListContainer').innerHTML = '<div class="q-card"><span style="font-weight:700;">নামাজের ডেটা পাওয়া যায়নি।</span></div>';
+          return;
+        }
+
+        const prayerCount = Array.isArray(namazData.prayers) ? namazData.prayers.length : 0;
+        const specialCount = Object.keys(namazData.special_prayers || {}).length;
+        const annualCount = Object.keys(namazData.special_prayers_annual || {}).length;
+        const taharatCount = Object.keys(namazData.taharat || {}).length;
+        const forbiddenCount = Array.isArray(namazData.forbidden_times)
+          ? namazData.forbidden_times.length
+          : (Array.isArray(namazData.forbidden_times && namazData.forbidden_times.times) ? namazData.forbidden_times.times.length : 0);
+
+        const sectionTitle = (txt) => `<div style="grid-column: 1 / -1; margin: 14px 0 4px; font-size: 17px; font-weight: 800; color: var(--accent-primary);">${txt}</div>`;
+        const listCard = (title, subtitle, icon, onClick, accent = 'var(--accent-primary)') => `
+          <div class="q-card" style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; border-left:4px solid ${accent};" onclick="${onClick}">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="material-symbols-rounded">${icon}</span>
+              <span style="font-size: 16px; font-weight: 700;">${title}</span>
+            </div>
+            ${subtitle ? `<div style="font-size: 12px; color: var(--text-secondary);">${subtitle}</div>` : ''}
+          </div>
+        `;
+
+        let html = `
+          <div style="grid-column: 1 / -1; border-radius: 18px; padding: 18px; margin-bottom: 4px; background: linear-gradient(135deg, #0f766e 0%, #0369a1 55%, #1d4ed8 100%); color: #fff; box-shadow: 0 12px 24px rgba(2,132,199,.25);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+              <div>
+                <div style="font-size: 20px; font-weight: 900; margin-bottom: 6px;">নামাজ শিক্ষা কেন্দ্র</div>
+                <div style="font-size: 13px; opacity: .95;">ওয়াক্তভিত্তিক নামাজ, বার্ষিক বিশেষ ইবাদত, কাজা বিধান, তাহারাত ও দলিলভিত্তিক গাইড</div>
+              </div>
+              <div style="display:grid; grid-template-columns: repeat(3, minmax(72px, 1fr)); gap:8px; min-width: 220px;">
+                <div style="background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:8px; text-align:center;"><div style="font-size:18px; font-weight:800;">${prayerCount}</div><div style="font-size:11px;">ওয়াক্ত</div></div>
+                <div style="background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:8px; text-align:center;"><div style="font-size:18px; font-weight:800;">${specialCount + annualCount}</div><div style="font-size:11px;">বিশেষ</div></div>
+                <div style="background: rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.22); border-radius:12px; padding:8px; text-align:center;"><div style="font-size:18px; font-weight:800;">${taharatCount}</div><div style="font-size:11px;">তাহারাত</div></div>
+              </div>
+            </div>
+            ${forbiddenCount ? `<div style="margin-top:10px; font-size:12px; opacity:.9;">নিষিদ্ধ/মাকরুহ সময়: ${forbiddenCount} টি</div>` : ''}
+          </div>
+        `;
+
+        if (prayerCount) {
+          html += sectionTitle('ওয়াক্তভিত্তিক নামাজ');
+          namazData.prayers.forEach(p => {
+            html += listCard(p.name_bn, p.time || '', 'schedule', `NamazModule.showPrayerDetails('${esc(p.id)}')`, '#0ea5e9');
+          });
+        }
+
+        if (namazData.special_prayers) {
+          const entries = Object.entries(namazData.special_prayers);
+          if (entries.length) {
+            html += sectionTitle('বিশেষ নামাজ ও ইবাদত');
+            entries.forEach(([key, item]) => {
+              const subtitle = item.type || item.hijri_timing || (item.total_rakats ? `${item.total_rakats} রাকাত` : 'বিস্তারিত');
+              html += listCard(item.name_bn || key, subtitle, 'auto_stories', `NamazModule.showSpecialDetails('${esc(key)}')`, '#14b8a6');
+            });
+          }
+        }
+
+        if (namazData.special_prayers_annual) {
+          const entries = Object.entries(namazData.special_prayers_annual);
+          if (entries.length) {
+            html += sectionTitle('বার্ষিক বিশেষ নামাজ ও আমল');
+            entries.forEach(([key, item]) => {
+              const subtitle = item.importance || item.description || item.ruling || 'বার্ষিক আমল';
+              html += listCard(item.name_bn || key, subtitle, 'event', `NamazModule.showAnnualSpecialDetails('${esc(key)}')`, '#22c55e');
+            });
+          }
+        }
+
+        if (namazData.taharat) {
+          const entries = Object.entries(namazData.taharat);
+          if (entries.length) {
+            html += sectionTitle('তাহারাত ও পবিত্রতা');
+            entries.forEach(([key, item]) => {
+              html += listCard(item.name_bn || key, item.evidence || item.condition || '', 'water_drop', `NamazModule.showTaharatDetails('${esc(key)}')`, '#3b82f6');
+            });
+          }
+        }
+
+        if (namazData.adhan_iqamah) {
+          html += sectionTitle('আযান ও ইকামাত');
+          html += listCard('আযান', 'আজানের শব্দ, জবাব ও দোয়া', 'campaign', `NamazModule.showAdhanIqamahDetails('adhan')`, '#f59e0b');
+          html += listCard('ইকামাত', 'ইকামাতের নিয়ম ও শব্দসমূহ', 'notifications_active', `NamazModule.showAdhanIqamahDetails('iqamah')`, '#f97316');
+        }
+
+        if (forbiddenCount) {
+          html += sectionTitle('নামাজ নিষিদ্ধ সময়');
+          html += listCard('নিষিদ্ধ সময়সমূহ', `${forbiddenCount} টি সময়`, 'schedule', `NamazModule.showForbiddenTimes()`, '#ef4444');
+        }
+
+        if (namazData.qaza_prayers || namazData.qaza_namaz_rules) {
+          html += sectionTitle('কাজা নামাজ');
+          html += listCard('কাজা নামাজের নিয়ম', 'নিয়ত, ধাপ, ধারাবাহিকতা ও মাস-কাজা নির্দেশনা', 'history', `NamazModule.showQazaRules()`, '#a855f7');
+        }
+
+        if (!html) {
+          html = `<div class="q-card"><span style="font-weight:700;">নামাজের ডেটা পাওয়া যায়নি।</span></div>`;
+        }
+
+        const listContainer = document.getElementById('namazListContainer');
+        listContainer.innerHTML = html;
+        listContainer.style.display = 'grid';
+        document.getElementById('namazDetailContainer').style.display = 'none';
+      };
+
+      const renderInfoBlock = (item) => {
+        let html = `
+          <div style="margin-bottom: 20px;">
+            <h2 style="font-size: 22px; color: var(--accent-primary); margin-bottom: 8px;">${item.name_bn || item.title || 'বিস্তারিত'}</h2>
+            ${item.description ? `<div style="margin-top:8px; padding:12px; background:var(--bg-main); border-radius:8px; font-size:13px;">${item.description}</div>` : ''}
+          </div>
+        `;
+
+        if (Array.isArray(item.rakats_detail)) {
+          html += renderRakatBlocks(item.rakats_detail);
+        } else if (Array.isArray(item.steps)) {
+          item.steps.forEach((s, idx) => {
+            html += renderStepCard({
+              step_id: `inline_step_${idx}`,
+              name_bn: s.action || `ধাপ ${idx + 1}`,
+              content: s.content,
+              reference: s.reference
+            });
+          });
+        } else {
+          html += renderValue(item);
+        }
+
+        if (item.loop_instruction) {
+          html += `<div class="mag-section color-5"><div class="mag-header">অতিরিক্ত নির্দেশনা</div><div class="mag-body">${item.loop_instruction}</div></div>`;
+        }
+
+        if (item.between_rakats_dua) {
+          const duaStep = namazData.common_steps && namazData.common_steps[item.between_rakats_dua];
+          if (duaStep) {
+            html += `<h3 style="font-size: 18px; margin: 24px 0 12px 0;">রাকাতের মাঝে তাসবিহ</h3>${renderStepCard(item.between_rakats_dua)}`;
+          }
+        }
+
+        return html;
+      };
+
+      return {
+        init: loadData,
+        backToList: () => renderList(),
+        showNamazView: async (fromHistory = false) => {
+          document.getElementById('qContainer').style.display = 'none';
+          document.querySelector('.cat-scroll-container').style.display = 'none';
+          document.getElementById('resultArea').style.display = 'none';
+          document.getElementById('namazArea').style.display = 'block';
+          Logic.currentView = 'namaz';
+          if (!fromHistory && !Logic.historySyncing) Logic.pushViewState('namaz');
+          StorageEngine.setState('lastActivity', { type: 'namaz', ts: Date.now() });
+
+          UIEngine.startGamifiedLoader();
+          document.getElementById('loaderText').innerText = "নামাজ শিক্ষার ডেটা আনা হচ্ছে...";
+          await loadData();
+          UIEngine.stopLoader();
+          renderList();
+        },
+        showPrayerDetails: (prayerId) => {
+          if (!namazData || !Array.isArray(namazData.prayers)) return;
+          const prayer = namazData.prayers.find(p => p.id === prayerId);
+          if (!prayer) return;
+          const html = `
+            <div style="margin-bottom: 20px;">
+              <h2 style="font-size: 22px; color: var(--accent-primary); margin-bottom: 8px;">${prayer.name_bn}</h2>
+              <p style="font-size: 14px; color: var(--text-secondary);"><span class="material-symbols-rounded" style="font-size:16px; vertical-align:middle;">schedule</span> সময়: ${prayer.time || '-'}</p>
+              ${prayer.notes ? `<div style="margin-top:8px; padding:12px; background:var(--bg-main); border-radius:8px; font-size:13px;">${prayer.notes}</div>` : ''}
+            </div>
+            ${renderRakatBlocks(prayer.rakats_detail)}
+          `;
+          showDetailHtml(html);
+        },
+        showSpecialDetails: (key) => {
+          if (!namazData || !namazData.special_prayers || !namazData.special_prayers[key]) return;
+          showDetailHtml(renderInfoBlock(namazData.special_prayers[key]));
+        },
+        showAnnualSpecialDetails: (key) => {
+          if (!namazData || !namazData.special_prayers_annual || !namazData.special_prayers_annual[key]) return;
+          showDetailHtml(renderInfoBlock(namazData.special_prayers_annual[key]));
+        },
+        showTaharatDetails: (key) => {
+          if (!namazData || !namazData.taharat || !namazData.taharat[key]) return;
+          showDetailHtml(renderInfoBlock(namazData.taharat[key]));
+        },
+        showAdhanIqamahDetails: (type) => {
+          if (!namazData || !namazData.adhan_iqamah || !namazData.adhan_iqamah[type]) return;
+          showDetailHtml(renderInfoBlock(namazData.adhan_iqamah[type]));
+        },
+        showForbiddenTimes: () => {
+          if (!namazData || !namazData.forbidden_times) return;
+          const times = Array.isArray(namazData.forbidden_times)
+            ? namazData.forbidden_times
+            : (Array.isArray(namazData.forbidden_times.times) ? namazData.forbidden_times.times : []);
+          const title = namazData.forbidden_times.title || 'নামাজ নিষিদ্ধ সময়সমূহ';
+          const desc = namazData.forbidden_times.description || '';
+          if (!times.length) return;
+          showDetailHtml(`
+            <h2 style="font-size: 22px; color: var(--accent-primary); margin-bottom: 10px;">${title}</h2>
+            ${desc ? `<div style="margin-bottom: 14px; padding: 12px; border-radius: 10px; background: var(--bg-main); font-size: 13px;">${desc}</div>` : ''}
+            ${times.map(item => `
+              <div class="mag-section color-4" style="margin-bottom: 12px;">
+                <div class="mag-header">${item.name || item.time}</div>
+                <div class="mag-body">
+                  <div style="margin-bottom:6px;"><b>সময়:</b> ${item.duration}</div>
+                  <div><b>বিধান:</b> ${item.ruling}</div>
+                  ${item.evidence ? `<div style="margin-top:6px; font-size:12px; opacity:.8;"><b>দলিল:</b> ${item.evidence}</div>` : ''}
+                </div>
+              </div>
+            `).join('')}
+          `);
+        },
+        showQazaRules: () => {
+          if (!namazData) return;
+          const target = namazData.qaza_prayers || namazData.qaza_namaz_rules;
+          if (!target) return;
+          showDetailHtml(renderInfoBlock(target));
+        }
+      };
+    })();
+
+    // ==========================================
+    // 3. STORAGE ENGINE
+    // ==========================================
+    const StorageEngine = (function () {
+      const DB_NAME = 'IslamicKnowledgeV4';
+      let dbInstance = null;
+
+      async function initDB() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(DB_NAME, 2);
+          req.onupgradeneeded = e => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('cache')) db.createObjectStore('cache', { keyPath: 'q' });
+            if (!db.objectStoreNames.contains('state')) db.createObjectStore('state', { keyPath: 'key' });
+          };
+          req.onsuccess = e => { dbInstance = e.target.result; resolve(dbInstance); };
+          req.onerror = e => reject(e);
+        });
+      }
+
+      const keysToSave = ['geminiKey', 'geminiModel', 'orKey', 'orModel', 'grokKey', 'grokModel'];
+
+      return {
+        init: async () => await initDB(),
+        getCache: async (q) => {
+          if (!dbInstance) await initDB();
+          return new Promise(resolve => {
+            const tx = dbInstance.transaction('cache', 'readonly');
+            const req = tx.objectStore('cache').get(q);
+            req.onsuccess = () => resolve(req.result ? req.result.a : null);
+            req.onerror = () => resolve(null);
+          });
+        },
+        setCache: async (q, a) => {
+          if (!dbInstance) await initDB();
+          const tx = dbInstance.transaction('cache', 'readwrite');
+          tx.objectStore('cache').put({ q, a, ts: Date.now() });
+        },
+        getState: async (key) => {
+          if (!dbInstance) await initDB();
+          return new Promise(resolve => {
+            const tx = dbInstance.transaction('state', 'readonly');
+            const req = tx.objectStore('state').get(key);
+            req.onsuccess = () => resolve(req.result ? req.result.value : null);
+            req.onerror = () => resolve(null);
+          });
+        },
+        setState: async (key, value) => {
+          if (!dbInstance) await initDB();
+          const tx = dbInstance.transaction('state', 'readwrite');
+          tx.objectStore('state').put({ key, value, ts: Date.now() });
+        },
+        saveSettings: () => {
+          keysToSave.forEach(id => {
+            const val = document.getElementById(id).value.trim();
+            if (val) localStorage.setItem(id, val);
+          });
+          localStorage.setItem('parallelMode', document.getElementById('parallelToggle').checked);
+          UI.showToast("সেটিংস সফলভাবে সংরক্ষিত হয়েছে");
+          UI.closeModal('settingsModal');
+        },
+        loadSettings: () => {
+          keysToSave.forEach(id => {
+            if (localStorage.getItem(id)) document.getElementById(id).value = localStorage.getItem(id);
+          });
+          document.getElementById('parallelToggle').checked = localStorage.getItem('parallelMode') === 'true';
+        },
+        clearCache: async () => {
+          if (!dbInstance) await initDB();
+          const tx = dbInstance.transaction('cache', 'readwrite');
+          tx.objectStore('cache').clear();
+          UI.showToast("লোকাল ক্যাশ মুছে ফেলা হয়েছে!");
+        },
+        getArray: (key) => JSON.parse(localStorage.getItem(key) || '[]'),
+        pushArray: (key, obj) => {
+          let arr = JSON.parse(localStorage.getItem(key) || '[]');
+          // Prevent duplicate bookmarks
+          if (key === 'bookmark' && arr.find(x => x.q === obj.q)) return false;
+          arr.unshift(obj);
+          if (arr.length > 30) arr.pop();
+          localStorage.setItem(key, JSON.stringify(arr));
+          return true;
+        }
+      };
+    })();
+
+
+    // ==========================================
+    // 3.5 SYSTEM HUB (Homepage Visibility/Sync/PWA)
+    // ==========================================
+    const SystemHub = (function () {
+      let deferredInstallPrompt = null;
+      let swRegistered = false;
+
+      const CORE_FILES = ['islamic.html', 'quran.html', 'ans.json', 'question.json', 'namazshikkha.json', 'manifest.json', 'sw.js'];
+
+      const byId = (id) => document.getElementById(id);
+      const fmtTime = (ts) => ts ? new Date(ts).toLocaleString('bn-BD') : '-';
+
+      const isInstalled = () => {
+        const standalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+        return !!(standalone || window.navigator.standalone || localStorage.getItem('appInstalled') === '1');
+      };
+
+      const setPill = (id, text, mode) => {
+        const el = byId(id);
+        if (!el) return;
+        el.textContent = text;
+        el.className = `status-pill ${mode || ''}`.trim();
+      };
+
+      const setMessage = (text) => {
+        const el = byId('sysMessage');
+        if (el) el.textContent = text;
+      };
+
+      const refreshStatus = async () => {
+        const online = navigator.onLine;
+        setPill('sysOnlineBadge', online ? 'নেটওয়ার্ক: Online' : 'নেটওয়ার্ক: Offline', online ? 'ok' : 'warn');
+
+        let hasSw = false;
+        if ('serviceWorker' in navigator) {
+          try {
+            const reg = await navigator.serviceWorker.getRegistration();
+            hasSw = !!reg || swRegistered;
+          } catch (e) {
+            hasSw = swRegistered;
+          }
+        }
+        setPill('sysSwBadge', hasSw ? 'অফলাইন ইঞ্জিন: Active' : 'অফলাইন ইঞ্জিন: Missing', hasSw ? 'ok' : 'error');
+
+        const installed = isInstalled();
+        const canInstall = !!deferredInstallPrompt;
+        const installBtn = byId('installAppBtn');
+        if (installBtn) {
+          installBtn.disabled = installed;
+          installBtn.style.opacity = installed ? '0.6' : '1';
+        }
+        if (installed) setPill('sysInstallBadge', 'অ্যাপ ইনস্টল: সম্পন্ন', 'ok');
+        else if (canInstall) setPill('sysInstallBadge', 'অ্যাপ ইনস্টল: প্রস্তুত', 'warn');
+        else setPill('sysInstallBadge', 'অ্যাপ ইনস্টল: ব্রাউজার সিদ্ধান্তাধীন', 'warn');
+
+        const catCount = Array.isArray(DataModule.categories) ? Math.max(0, DataModule.categories.length - 1) : 0;
+        const qCount = Array.isArray(DataModule.questions) ? DataModule.questions.length : 0;
+        const hasNamaz = !!(window.NamazData && (window.NamazData.prayers || window.NamazData.taharat || window.NamazData.special_prayers || window.NamazData.special_prayers_annual || window.NamazData.qaza_prayers));
+        const dataMode = qCount > 0 ? 'ok' : 'error';
+        setPill('sysDataBadge', `ডাটা: ${catCount} ক্যাটাগরি, ${qCount} প্রশ্ন${hasNamaz ? ', নামাজ OK' : ''}`, dataMode);
+
+        const syncLabel = byId('sysLastSync');
+        if (syncLabel) syncLabel.textContent = `সিঙ্ক: ${fmtTime(DataModule.lastLoadedAt)}`;
+      };
+
+      const syncNow = async () => {
+        setMessage('Sync চলছে...');
+        try {
+          if ('serviceWorker' in navigator) {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg) await reg.update();
+          }
+          await DataModule.loadData();
+          await NamazModule.init();
+          UIEngine.renderCategories('all');
+          UIEngine.renderQuestions('all');
+          const namazArea = document.getElementById('namazArea');
+          if (namazArea && namazArea.style.display !== 'none') {
+            await NamazModule.showNamazView();
+          }
+          setMessage('Sync সম্পন্ন হয়েছে।');
+          await refreshStatus();
+        } catch (e) {
+          console.error('Sync failed', e);
+          setMessage('Sync ব্যর্থ হয়েছে।');
+          UIEngine.showToast('Sync ব্যর্থ হয়েছে।');
+        }
+      };
+
+      const warmOffline = async () => {
+        if (!('caches' in window)) {
+          setMessage('Browser cache API সাপোর্ট করে না।');
+          return;
+        }
+        setMessage('Offline cache তৈরি হচ্ছে...');
+        try {
+          const cache = await caches.open('islamic-manual-cache-v1');
+          const results = await Promise.allSettled(
+            CORE_FILES.map(file => cache.add(new Request(file, { cache: 'reload' })))
+          );
+          const ok = results.filter(r => r.status === 'fulfilled').length;
+          setMessage(`Offline save: ${ok}/${CORE_FILES.length} ফাইল ক্যাশ হয়েছে।`);
+          UIEngine.showToast('Offline cache আপডেট হয়েছে।');
+        } catch (e) {
+          console.error('Warm offline failed', e);
+          setMessage('Offline cache তৈরি ব্যর্থ হয়েছে।');
+        }
+      };
+
+      const viewFile = async (file) => {
+        const title = byId('fileViewerTitle');
+        const body = byId('fileViewerBody');
+        if (title) title.textContent = `ফাইল ভিউ: ${file}`;
+        if (body) body.textContent = 'লোড হচ্ছে...';
+        UIEngine.openModal('fileViewerModal');
+
+        try {
+          const res = await fetch(file, { cache: 'no-store' });
+          if (!res.ok) throw new Error('ফাইল পাওয়া যায়নি');
+          const text = await res.text();
+          if (body) body.textContent = text;
+        } catch (e) {
+          if (body) body.textContent = `লোড ব্যর্থ: ${e.message}`;
+        }
+      };
+
+      const downloadFile = (file) => {
+        const a = document.createElement('a');
+        a.href = file;
+        a.download = file;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setMessage(`${file} ডাউনলোড শুরু হয়েছে।`);
+      };
+
+      const installApp = async () => {
+        if (isInstalled()) {
+          UIEngine.showToast('অ্যাপ আগে থেকেই ইনস্টল করা আছে।');
+          return;
+        }
+        if (!deferredInstallPrompt) {
+          UIEngine.showToast('এই ডিভাইসে এখনই Install prompt পাওয়া যাচ্ছে না।');
+          await refreshStatus();
+          return;
+        }
+        deferredInstallPrompt.prompt();
+        const result = await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+        if (result && result.outcome === 'accepted') {
+          localStorage.setItem('appInstalled', '1');
+          setMessage('Install সফল হয়েছে।');
+        } else {
+          setMessage('Install বাতিল করা হয়েছে।');
+        }
+        await refreshStatus();
+      };
+
+      const resumeLastActivity = async () => {
+        try {
+          const activity = await StorageEngine.getState('lastActivity');
+          if (!activity || !activity.type) {
+            UIEngine.showToast('কোনো last activity পাওয়া যায়নি।');
+            return;
+          }
+
+          if (activity.type === 'result' && activity.q) {
+            const aiToggle = document.getElementById('aiToggle');
+            if (aiToggle && typeof activity.askAI === 'boolean') aiToggle.checked = activity.askAI;
+            await Logic.ask(activity.q);
+            return;
+          }
+
+          if (activity.type === 'namaz') {
+            await NamazModule.showNamazView(true);
+            return;
+          }
+
+          if (activity.type === 'quran_reader') {
+            window.location.href = 'quran.html';
+            return;
+          }
+
+          UIEngine.showToast('Last activity format সমর্থিত নয়।');
+        } catch (e) {
+          UIEngine.showToast('Last activity restore ব্যর্থ হয়েছে।');
+        }
+      };
+
+      const onServiceWorkerRegistered = async () => {
+        swRegistered = true;
+        await refreshStatus();
+      };
+
+      const init = async () => {
+        window.addEventListener('beforeinstallprompt', (event) => {
+          event.preventDefault();
+          deferredInstallPrompt = event;
+          refreshStatus();
+        });
+        window.addEventListener('appinstalled', () => {
+          localStorage.setItem('appInstalled', '1');
+          deferredInstallPrompt = null;
+          refreshStatus();
+        });
+        await refreshStatus();
+        setMessage('সিস্টেম প্রস্তুত।');
+      };
+
+      return {
+        init,
+        refreshStatus,
+        syncNow,
+        warmOffline,
+        viewFile,
+        downloadFile,
+        installApp,
+        resumeLastActivity,
+        onServiceWorkerRegistered
+      };
+    })();
+
+
+    // ==========================================
+    // 3. VISION PROCESSOR
+    // ==========================================
+    const VisionProcessor = (function () {
+      let currentBase64 = null;
+
+      return {
+        handleImage: (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const img = new Image();
+          const reader = new FileReader();
+
+          reader.onload = e => {
+            img.src = e.target.result;
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              let w = img.width, h = img.height;
+              if (w > 1024) { h *= 1024 / w; w = 1024; }
+              canvas.width = w; canvas.height = h;
+              ctx.drawImage(img, 0, 0, w, h);
+              currentBase64 = canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
+
+              document.getElementById('visionIndicator').style.display = 'block';
+              UI.showToast("ছবি যুক্ত করা হয়েছে। এবার প্রশ্ন করুন।");
+            };
+          };
+          reader.readAsDataURL(file);
+        },
+        getImage: () => currentBase64,
+        clearImage: () => {
+          currentBase64 = null;
+          document.getElementById('visionIndicator').style.display = 'none';
+          document.getElementById('imageInput').value = '';
+        }
+      };
+    })();
+
+
+    // ==========================================
+    // 4. AI ENGINE (Parallel & Failover)
+    // ==========================================
+    const AIEngine = (function () {
+      let abortController = null;
+
+      const promptTemplate = `তুমি একজন প্রাজ্ঞ ও বিশ্বস্ত ইসলামিক পণ্ডিত। নিচের প্রশ্নটির বিস্তারিত, দলিলভিত্তিক উত্তর দাও।
+প্রশ্ন: "{q}"
+
+অবশ্যই নিচের কাঠামো এবং শিরোনামগুলো হুবহু ব্যবহার করবে (মার্কডাউন ফরম্যাটে):
+
+**১. সারসংক্ষেপ**
+**২. বিস্তারিত ব্যাখ্যা**
+**৩. কুরআনের দলিল** (আরবি, উচ্চারণ ও অনুবাদসহ)
+**৪. হাদিসের দলিল**
+**৫. ইমামদের মতামত**
+**৬. ফিকহি নোট (হানাফী/শাফেয়ী সংক্ষেপ)**
+**৭. আরবি টেক্সটের বাংলা উচ্চারণ**
+**৮. আরবি টেক্সটের বাংলা অর্থ**
+**৯. English Summary**
+**১০. বাস্তব জীবনে প্রয়োগ**
+**১১. সতর্কতা ও ভুল ধারণা**
+**১২. উপসংহার ও আমল পরিকল্পনা**`;
+
+      async function callAPI(provider, q, imageB64) {
+        const prompt = promptTemplate.replace('{q}', q);
+        let url, headers, body;
+
+        if (provider === 'gemini') {
+          const key = localStorage.getItem('geminiKey');
+          const model = localStorage.getItem('geminiModel') || 'gemini-1.5-flash';
+          if (!key) throw new Error('Gemini Key Missing');
+          url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+          let parts = [{ text: prompt }];
+          if (imageB64) parts.push({ inlineData: { mimeType: "image/jpeg", data: imageB64 } });
+          headers = { 'Content-Type': 'application/json' };
+          body = JSON.stringify({ contents: [{ parts }], generationConfig: { temperature: 0.2 } });
+        }
+        else if (provider === 'openrouter') {
+          const key = localStorage.getItem('orKey');
+          const model = localStorage.getItem('orModel') || 'deepseek/deepseek-chat';
+          if (!key) throw new Error('OpenRouter Key Missing');
+          url = 'https://openrouter.ai/api/v1/chat/completions';
+          headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
+          body = JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], temperature: 0.2 });
+        }
+        else if (provider === 'grok') {
+          const key = localStorage.getItem('grokKey');
+          const model = localStorage.getItem('grokModel') || 'grok-1';
+          if (!key) throw new Error('Grok Key Missing');
+          url = 'https://api.x.ai/v1/chat/completions';
+          headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` };
+          body = JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], temperature: 0.2 });
+        }
+
+        const res = await fetch(url, { method: 'POST', headers, body, signal: abortController.signal });
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error.message || "API Error");
+
+        if (provider === 'gemini') return { text: data.candidates[0].content.parts[0].text, source: 'Gemini' };
+        return { text: data.choices[0].message.content, source: provider === 'grok' ? 'Grok' : 'OpenRouter' };
+      }
+
+      return {
+        run: async (q) => {
+          if (abortController) abortController.abort();
+          abortController = new AbortController();
+
+          const imageB64 = VisionProcessor.getImage();
+          const isParallel = document.getElementById('parallelToggle').checked;
+
+          if (isParallel) {
+            // PARALLEL EXECUTION (Race Condition)
+            const promises = [];
+            if (localStorage.getItem('geminiKey')) promises.push(callAPI('gemini', q, imageB64));
+            // Only send text to OR/Grok if image is present to avoid payload errors
+            if (localStorage.getItem('orKey')) promises.push(callAPI('openrouter', q, null));
+            if (localStorage.getItem('grokKey')) promises.push(callAPI('grok', q, null));
+
+            if (promises.length === 0) throw new Error("কোনো API Key দেওয়া নেই! সেটিংসে গিয়ে Key দিন।");
+
+            try {
+              return await Promise.any(promises); // First one to resolve wins
+            } catch (e) {
+              throw new Error("সবগুলো API ব্যর্থ হয়েছে। দয়া করে আপনার ইন্টারনেট বা API Key চেক করুন।");
+            }
+          } else {
+            // SEQUENTIAL FAILOVER
+            try {
+              return await callAPI('gemini', q, imageB64);
+            } catch (e1) {
+              if (e1.name === 'AbortError') throw e1;
+              if (imageB64) throw new Error("ছবি বিশ্লেষণের জন্য শুধুমাত্র Gemini কাজ করে। সঠিক Gemini Key দিন।");
+
+              try {
+                return await callAPI('openrouter', q, null);
+              } catch (e2) {
+                if (e2.name === 'AbortError') throw e2;
+                try {
+                  return await callAPI('grok', q, null);
+                } catch (e3) {
+                  throw new Error("সবগুলো API প্রদানকারী ব্যর্থ হয়েছে।");
+                }
+              }
+            }
+          }
+        },
+
+        // Voice Input (STT)
+        startVoice: () => {
+          const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          if (!SpeechRecognition) {
+            UI.showToast('আপনার ব্রাউজার ভয়েস ইনপুট সাপোর্ট করে না۔'); return;
+          }
+          const recognition = new SpeechRecognition();
+          recognition.lang = 'bn-BD';
+
+          recognition.onstart = () => {
+            document.getElementById('micBtn').classList.add('mic-active');
+            UI.showToast("বলুন, আমি শুনছি...");
+          };
+          recognition.onresult = (e) => {
+            document.getElementById('searchInput').value = e.results[0][0].transcript;
+            Logic.handleSearch();
+          };
+          recognition.onend = () => document.getElementById('micBtn').classList.remove('mic-active');
+          recognition.onerror = () => {
+            document.getElementById('micBtn').classList.remove('mic-active');
+            UI.showToast("ভয়েস চিনতে সমস্যা হয়েছে।");
+          };
+
+          recognition.start();
+        }
+      };
+    })();
+
+
+    // ==========================================
+    // 5. UI ENGINE (Magazine Render, Loader, Scroll)
+    // ==========================================
+    const UIEngine = (function () {
+      let loaderInterval;
+
+      function parseMagazine(text) {
+        let safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        safeText = safeText.replace(/([\u0600-\u06FF\s]{15,})/g, '<div class="arabic-text">$1</div>');
+
+        const parts = safeText.split(/\*\*(.*?)\*\*/g);
+        let html = '';
+
+        let colorIndex = 0;
+
+        for (let i = 1; i < parts.length; i += 2) {
+          const title = parts[i].trim();
+          let content = (parts[i + 1] || '').trim();
+          content = content.replace(/\n\*/g, '<br>•').replace(/\n/g, '<br>');
+
+          let colorClass = 'color-' + ((colorIndex % 12) + 1);
+          colorIndex++;
+
+          if (title && content) {
+            // Add staggered animation delay
+            let delay = (i * 0.05).toFixed(2);
+            html += `
+          <div class="mag-section ${colorClass}" style="animation: slideUp 0.5s ease ${delay}s backwards;">
+            <div class="mag-header">${title}</div>
+            <div class="mag-body">${content}</div>
+          </div>
+        `;
+          }
+        }
+        if (html === '') html = `<div class="mag-section color-1"><div class="mag-body">${safeText.replace(/\n/g, '<br>')}</div></div>`;
+        return html;
+      }
+
+      // Setup Drag to Scroll for Categories
+      function setupDragScroll() {
+        const slider = document.getElementById('catContainer');
+        let isDown = false; let startX; let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+          isDown = true; slider.classList.add('active');
+          startX = e.pageX - slider.offsetLeft;
+          scrollLeft = slider.scrollLeft;
+        });
+        slider.addEventListener('mouseleave', () => { isDown = false; slider.classList.remove('active'); });
+        slider.addEventListener('mouseup', () => { isDown = false; slider.classList.remove('active'); });
+        slider.addEventListener('mousemove', (e) => {
+          if (!isDown) return;
+          e.preventDefault();
+          const x = e.pageX - slider.offsetLeft;
+          const walk = (x - startX) * 2; // scroll-fast
+          slider.scrollLeft = scrollLeft - walk;
+        });
+      }
+
+      return {
+        initScroll: setupDragScroll,
+
+        renderCategories: (activeId) => {
+          let html = '';
+          const hasNamazData = !!(window.NamazData && (window.NamazData.prayers || window.NamazData.taharat || window.NamazData.special_prayers || window.NamazData.special_prayers_annual || window.NamazData.qaza_prayers));
+
+          if (hasNamazData) {
+            html += `
+        <div class="cat-chip ${activeId === 'namaz' ? 'active' : ''}" onclick="NamazModule.showNamazView()">
+          <span style="font-size: 18px; margin-right: 4px;">🕌</span> নামাজ শিক্ষা
+        </div>
+      `;
+          }
+
+          html += DataModule.categories.map(c => {
+            const iconHtml = c.icon.length <= 2 ? c.icon : `<span class="material-symbols-rounded" style="font-size: 18px;">${c.icon}</span>`;
+            return `
+        <div class="cat-chip ${c.id === activeId ? 'active' : ''}" onclick="Logic.filterCat('${c.id}')">
+          <span style="font-size: 18px; margin-right: 4px;">${iconHtml}</span> ${c.name}
+        </div>
+      `;
+          }).join('');
+          document.getElementById('catContainer').innerHTML = html;
+        },
+
+        renderQuestions: (filterCat = 'all') => {
+          const filtered = filterCat === 'all'
+            ? DataModule.questions.slice(0, 40) // Show 40 to prevent DOM lag
+            : DataModule.questions.filter(q => q.c === filterCat).slice(0, 40);
+          const hasNamazData = !!(window.NamazData && (window.NamazData.prayers || window.NamazData.taharat || window.NamazData.special_prayers || window.NamazData.special_prayers_annual || window.NamazData.qaza_prayers));
+
+          let html = '';
+          if (filterCat === 'all' && hasNamazData) {
+            html += `
+        <div class="q-card" style="animation-delay: 0s; border-left: 4px solid var(--accent-primary);" onclick="NamazModule.showNamazView()">
+          <span class="material-symbols-rounded">self_improvement</span>
+          <span style="font-size: 15px; font-weight: 700;">নামাজ শিক্ষা (স্টেপ বাই স্টেপ)</span>
+        </div>
+      `;
+          }
+
+          html += filtered.map((q, index) => {
+            let delay = (index * 0.02).toFixed(2);
+            return `
+        <div class="q-card" style="animation-delay: ${delay}s" onclick="Logic.ask('${q.q.replace(/'/g, "\\'")}')">
+          <span class="material-symbols-rounded">help</span>
+          <span style="font-size: 15px; font-weight: 600;">${q.q}</span>
+        </div>
+      `}).join('');
+          document.getElementById('qContainer').innerHTML = html;
+        },
+
+        startGamifiedLoader: () => {
+          const steps = ["বিশ্লেষণ করা হচ্ছে...", "কুরআনের আয়াত অনুসন্ধান...", "হাদিস যাচাই করা হচ্ছে...", "ফিকহ দেখা হচ্ছে...", "ফলাফল সাজানো হচ্ছে..."];
+          const quotes = [
+            "❝ যে ব্যক্তি জ্ঞান অন্বেষণের পথে চলে, আল্লাহ তার জন্য জান্নাতের পথ সহজ করে দেন। (মুসলিম) ❞",
+            "❝ ইকরা! পড়ো তোমার রবের নামে, যিনি সৃষ্টি করেছেন। (আল-আলাক:১) ❞",
+            "❝ দোলনা থেকে কবর পর্যন্ত জ্ঞান অন্বেষণ কর ❞",
+            "❝ জ্ঞানী ও মূর্খ কি সমান হতে পারে? ❞",
+            "❝ সবচেয়ে উত্তম দান হলো জ্ঞান দান করা। (ইবনে মাজাহ) ❞",
+            "❝ তোমরা সহজ করো, কঠিন করো না। সুসংবাদ দাও, দূরে সরিয়ে দিও না। (বুখারী) ❞",
+            "❝ আল্লাহ যার মঙ্গল চান, তাকে দ্বীনের গভীর জ্ঞান দান করেন। (বুখারী) ❞"
+          ];
+          document.getElementById('loader').style.display = 'flex';
+          let stepIndex = 0; let startTime = Date.now();
+          document.getElementById('loaderText').innerText = steps[0];
+          document.getElementById('loaderQuote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+          loaderInterval = setInterval(() => {
+            let elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+            document.getElementById('loaderSubText').innerText = elapsed + "s";
+            if (stepIndex < steps.length - 1 && Math.random() > 0.6) {
+              stepIndex++;
+              document.getElementById('loaderText').innerText = steps[stepIndex];
+              document.getElementById('loaderQuote').innerText = quotes[Math.floor(Math.random() * quotes.length)];
+            }
+          }, 700);
+        },
+
+        stopLoader: () => {
+          clearInterval(loaderInterval);
+          document.getElementById('loader').style.display = 'none';
+        },
+
+        displayResult: (q, ansObj, elapsed) => {
+          document.getElementById('qContainer').style.display = 'none';
+          document.querySelector('.cat-scroll-container').style.display = 'none';
+          document.getElementById('resultArea').style.display = 'block';
+
+          document.getElementById('resQuestionTitle').innerText = q;
+
+          const magazineHtml = parseMagazine(ansObj.text);
+          const enrichedHtml = ContentEnricher.parse(magazineHtml);
+          const magaZineRenderedNode = document.getElementById('magazineContent');
+
+          if (typeof IslamicModule !== 'undefined') {
+            IslamicModule.AutoMatcher.processText(enrichedHtml, magaZineRenderedNode);
+          } else {
+            magaZineRenderedNode.innerHTML = enrichedHtml;
+          }
+
+          const sourceText = String(ansObj.source || 'Unknown');
+          const sourceLower = sourceText.toLowerCase();
+          const isOfflineSource = sourceLower.includes('offline') || sourceText.includes('অফলাইন');
+          const isAIResult = sourceLower.includes('gemini') || sourceLower.includes('openrouter') || sourceLower.includes('grok') || sourceLower.includes('ai');
+
+          document.getElementById('aiStats').innerText = `মডেল: ${sourceText} | সময়: ${elapsed}s`;
+
+          Logic.currentAnsSource = sourceText;
+          Logic.currentAnsText = String(ansObj.text || '');
+          Logic.currentAnsRefs = ReferenceTools.extractLines(ansObj.text, ansObj.ref);
+          if (!Logic.historySyncing) Logic.pushViewState('result', { q });
+          StorageEngine.setState('lastActivity', {
+            type: 'result',
+            q,
+            askAI: !isOfflineSource,
+            source: sourceText,
+            ts: Date.now()
+          });
+
+          const expandBtn = document.getElementById('expandOfflineBtn');
+          if (expandBtn) {
+            expandBtn.style.display = isOfflineSource ? 'inline-flex' : 'none';
+          }
+
+          const verifyBtn = document.getElementById('verifyBtn');
+          if (verifyBtn) {
+            verifyBtn.style.display = 'inline-flex';
+            verifyBtn.innerHTML = isAIResult
+              ? '<span class="material-symbols-rounded">restart_alt</span> Re-Verify'
+              : '<span class="material-symbols-rounded">verified</span> যাচাই';
+          }
+
+          // Smart Suggestions
+          const suggestions = [
+            `${q} এর ব্যতিক্রম কি?`,
+            `এ সম্পর্কে আরো কোনো হাদিস আছে?`,
+            `বর্তমান সমাজে এর প্রয়োগ কিভাবে করব?`,
+            `${q} নিয়ে সাধারণ ভুল ধারণা কি?`,
+            `${q} এর দলিলের মান যাচাই করো`,
+            `${q} হানাফী ও শাফেয়ী মত তুলনা`,
+            `${q} শিশুদের সহজ ভাষায় বুঝাও`,
+            `${q} সংক্ষিপ্ত বুলেট পয়েন্ট`,
+            `${q} আরবি উদ্ধৃতির উচ্চারণ দাও`,
+            `${q} বাস্তব উদাহরণসহ ব্যাখ্যা`,
+            `${q} বিষয়ে করণীয় ও বর্জনীয়`,
+            `${q} বিষয়ে সংক্ষিপ্ত ফিকহ নোট`
+          ];
+          const suggestionSoft = [
+            ['#ecfdf5', '#047857'],
+            ['#eff6ff', '#1d4ed8'],
+            ['#f0f9ff', '#0369a1'],
+            ['#fdf2f8', '#be185d'],
+            ['#fef3c7', '#b45309'],
+            ['#f5f3ff', '#6d28d9'],
+            ['#ecfeff', '#0e7490'],
+            ['#fff7ed', '#c2410c'],
+            ['#eef2ff', '#4338ca'],
+            ['#f0fdf4', '#15803d'],
+            ['#fff1f2', '#be123c']
+          ];
+          document.getElementById('suggestionChips').innerHTML = suggestions.map((s, i) => {
+            const theme = suggestionSoft[i % suggestionSoft.length];
+            return `<button class="suggestion-card" style="background:${theme[0]}; color:${theme[1]}; border-color:${theme[0]};" onclick="Logic.ask('${s.replace(/'/g, "\\'")}')">${s}</button>`;
+          }).join('');
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+
+        showToast: (msg) => {
+          const t = document.getElementById('toast');
+          document.getElementById('toastMsg').innerText = msg;
+          t.classList.add('show');
+          setTimeout(() => t.classList.remove('show'), 3500);
+        },
+
+        toggleTheme: () => {
+          const root = document.documentElement;
+          const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+          root.setAttribute('data-theme', next);
+          localStorage.setItem('theme', next);
+          document.getElementById('themeIcon').innerText = next === 'dark' ? 'light_mode' : 'dark_mode';
+
+          const sbTheme = document.getElementById('sbThemeIcon');
+          if (sbTheme) sbTheme.innerText = next === 'dark' ? 'light_mode' : 'dark_mode';
+
+          const metaColor = document.getElementById('meta-theme-color');
+          if (metaColor) metaColor.content = next === 'dark' ? '#064e3b' : '#0b5e42';
+        },
+
+        openModal: (id) => {
+          const m = document.getElementById(id);
+          m.style.display = 'flex';
+          setTimeout(() => m.classList.add('show'), 10); // Trigger animation
+        },
+        closeModal: (id) => {
+          const m = document.getElementById(id);
+          m.classList.remove('show');
+          setTimeout(() => m.style.display = 'none', 300); // Wait for animation
+        },
+
+        renderHistory: (type) => {
+          const data = StorageEngine.getArray(type);
+          const html = data.length ? data.map(item => `
+        <div style="background: var(--bg-main); padding: 16px; border-radius: 16px; margin-bottom: 12px; cursor:pointer; border: 1px solid var(--border-color); transition: all 0.2s;"
+             onmouseover="this.style.borderColor='var(--accent-primary)'" onmouseout="this.style.borderColor='var(--border-color)'"
+             onclick="Logic.ask('${item.q.replace(/'/g, "\\'")}'); UI.closeModal('historyModal');">
+           <b style="font-size: 15px;">${item.q}</b>
+        </div>
+      `).join('') : '<p style="text-align:center; color:gray; padding: 20px;">কোনো তথ্য নেই</p>';
+          document.getElementById('historyList').innerHTML = html;
+        },
+
+        changeFontSize: (step) => {
+          const root = document.documentElement;
+          let currentSize = parseFloat(getComputedStyle(root).getPropertyValue('--mag-font-size')) || 16;
+          let newSize = currentSize + step;
+          if (newSize < 12) newSize = 12;
+          if (newSize > 26) newSize = 26;
+          root.style.setProperty('--mag-font-size', newSize + 'px');
+          UI.showToast(`ফন্ট সাইজ: ${newSize}px`);
+        },
+
+        toggleSidebar: () => {
+          const sidebar = document.getElementById('sidebar');
+          const overlay = document.getElementById('sidebarOverlay');
+          if (sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+          } else {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+          }
+        },
+
+        registerServiceWorker: () => {
+          if ('serviceWorker' in navigator) {
+            const doRegister = () => {
+              navigator.serviceWorker.register('sw.js').then(registration => {
+                console.log('SW registered: ', registration.scope);
+                if (window.SystemHub && typeof window.SystemHub.refreshStatus === 'function') {
+                  window.SystemHub.refreshStatus();
+                }
+              }).catch(registrationError => {
+                console.log('SW registration failed: ', registrationError);
+              });
+            };
+            if (document.readyState === 'complete') doRegister();
+            else window.addEventListener('load', doRegister, { once: true });
+          }
+        }
+      };
+    })();
+
+
+    // ==========================================
+    // 6. LOGIC & EVENT HANDLERS
+    // ==========================================
+    const Logic = {
+      currentQ: '',
+      currentAnsText: '',
+      currentAnsSource: '',
+      currentAnsRefs: [],
+      currentOfflineSeed: '',
+      currentView: 'home',
+      historySyncing: false,
+      isSpeaking: false,
+
+      showHomeView: () => {
+        document.getElementById('resultArea').style.display = 'none';
+        document.getElementById('namazArea').style.display = 'none';
+        document.querySelector('.cat-scroll-container').style.display = 'block';
+        document.getElementById('qContainer').style.display = 'grid';
+        if (Logic.isSpeaking) Logic.stopSpeak();
+        NamazAudioEngine.stop();
+        Logic.currentView = 'home';
+      },
+
+      pushViewState: (view, payload = {}) => {
+        if (Logic.historySyncing) return;
+        const current = history.state;
+        // যদি একই view এবং একই payload হয় তবে push না করে replace করুন
+        if (current && current.view === view && JSON.stringify(current.payload) === JSON.stringify(payload)) {
+          history.replaceState({ view, ...payload }, '', view === 'home' ? location.pathname : `#${view}`);
+        } else {
+          history.pushState({ view, ...payload }, '', view === 'home' ? location.pathname : `#${view}`);
+        }
+        Logic.currentView = view;
+      },
+
+      handlePopState: async (event) => {
+        Logic.historySyncing = true;
+        try {
+          const state = event.state || { view: 'home' };
+          if (state.view === 'namaz') {
+            await NamazModule.showNamazView(true);
+          } else if (state.view === 'result' && state.q) {
+            await Logic.ask(state.q);
+          } else {
+            Logic.showHomeView();
+          }
+        } finally {
+          Logic.historySyncing = false;
+        }
+      },
+
+      init: async () => {
+        try {
+          UIEngine.registerServiceWorker(); // Setup PWA
+          UIEngine.startGamifiedLoader();
+          document.getElementById('loaderText').innerText = "ডেটা লোড হচ্ছে...";
+
+          await DataModule.loadData();
+          await StorageEngine.init();
+          StorageEngine.loadSettings();
+          ContentEnricher.injectStyles();
+
+          if (typeof IslamicModule !== 'undefined') {
+            await IslamicModule.init();
+          }
+
+          if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('themeIcon').innerText = 'light_mode';
+            const sbTheme = document.getElementById('sbThemeIcon');
+            if (sbTheme) sbTheme.innerText = 'light_mode';
+            const metaColor = document.getElementById('meta-theme-color');
+            if (metaColor) metaColor.content = '#064e3b';
+          }
+
+          checkOfflineStatus();
+          window.addEventListener('online', () => {
+            checkOfflineStatus();
+            if (window.SystemHub) window.SystemHub.refreshStatus();
+          });
+          window.addEventListener('offline', () => {
+            checkOfflineStatus();
+            if (window.SystemHub) window.SystemHub.refreshStatus();
+          });
+
+          UIEngine.initScroll();
+          UIEngine.renderCategories('all');
+          UIEngine.renderQuestions('all');
+          if (window.SystemHub) await window.SystemHub.init();
+
+          history.replaceState({ view: 'home' }, '', location.pathname);
+          window.addEventListener('popstate', Logic.handlePopState);
+
+          document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') Logic.handleSearch();
+          });
+        } catch (err) {
+          console.error("Init Error:", err);
+          UIEngine.showToast("অ্যাপ শুরু করতে সমস্যা হয়েছে।");
+        } finally {
+          UIEngine.stopLoader();
+        }
+      },
+
+      filterCat: (id) => {
+        UIEngine.renderCategories(id);
+        UIEngine.renderQuestions(id);
+        document.getElementById('resultArea').style.display = 'none';
+        document.querySelector('.cat-scroll-container').style.display = 'block';
+        if (Logic.isSpeaking) Logic.stopSpeak();
+      },
+
+      handleSearch: () => {
+        const q = document.getElementById('searchInput').value.trim();
+        if (q) Logic.ask(q);
+      },
+
+      openQuranPage: async () => {
+        await StorageEngine.setState('lastActivity', { type: 'quran_reader', ts: Date.now() });
+        window.location.href = 'quran.html';
+      },
+
+      goBack: () => {
+        const st = history.state && history.state.view;
+        if (st && st !== 'home') history.back();
+        else Logic.showHomeView();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      },
+
+      ask: async (q) => {
+        Logic.currentQ = q;
+        document.getElementById('searchInput').value = q;
+        if (Logic.isSpeaking) Logic.stopSpeak();
+
+        const aiToggle = document.getElementById('aiToggle');
+        const askAI = aiToggle ? aiToggle.checked : true;
+
+        if (!askAI && !VisionProcessor.getImage()) {
+          const offlineAns = DataModule.questionMap ? DataModule.questionMap[q] : null;
+          if (offlineAns && offlineAns.a) {
+            let formattedOffline = offlineAns.a + "\n\n";
+            if (offlineAns.ref) {
+              formattedOffline += `**তথ্যসূত্র:** ${offlineAns.ref}\n\n`;
+            }
+
+            Logic.currentOfflineSeed = offlineAns.a;
+            UIEngine.displayResult(q, { text: formattedOffline, source: 'অফলাইন (ans.json)' }, '0.0');
+
+            StorageEngine.pushArray('history', { q });
+            return;
+          }
+        }
+
+        if (!VisionProcessor.getImage()) {
+          const cached = await StorageEngine.getCache(q);
+          if (cached) {
+            Logic.currentOfflineSeed = '';
+            UIEngine.displayResult(q, { text: cached, source: 'Cache' }, '0.1');
+            StorageEngine.pushArray('history', { q });
+            return;
+          }
+        }
+
+        UIEngine.startGamifiedLoader();
+        const start = Date.now();
+        try {
+          const ansObj = await AIEngine.run(q);
+          const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+
+          Logic.currentOfflineSeed = '';
+          if (!VisionProcessor.getImage()) await StorageEngine.setCache(q, ansObj.text);
+
+          UIEngine.displayResult(q, ansObj, elapsed);
+          StorageEngine.pushArray('history', { q });
+          VisionProcessor.clearImage();
+
+        } catch (err) {
+          if (err.name !== 'AbortError') UIEngine.showToast(err.message);
+        } finally {
+          UIEngine.stopLoader();
+        }
+      },
+
+      expandOfflineAnswer: async () => {
+        if (!Logic.currentQ) {
+          UIEngine.showToast('প্রথমে একটি প্রশ্ন নির্বাচন করুন।');
+          return;
+        }
+        const base = String(Logic.currentOfflineSeed || Logic.currentAnsText || '').replace(/<[^>]*>/g, ' ').trim();
+        if (!base) {
+          UIEngine.showToast('অফলাইন উত্তর পাওয়া যায়নি।');
+          return;
+        }
+
+        const aiToggle = document.getElementById('aiToggle');
+        if (aiToggle) aiToggle.checked = true;
+
+        UIEngine.startGamifiedLoader();
+        document.getElementById('loaderText').innerText = "অফলাইন উত্তর বিস্তারিত করা হচ্ছে...";
+        const start = Date.now();
+        try {
+          const qForAI = `${Logic.currentQ}
+
+লোকাল অফলাইন সংক্ষিপ্ত উত্তর:
+${base}
+
+উপরের উত্তরটি আরও বিস্তারিত করো।
+অবশ্যই: কুরআন ও হাদিসের রেফারেন্সে আরবি, বাংলা উচ্চারণ, অর্থ, হাদিস বই+নম্বর দাও।`;
+
+          const ansObj = await AIEngine.run(qForAI);
+          const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+          UIEngine.displayResult(Logic.currentQ, { text: ansObj.text, source: `${ansObj.source} (Offline Expand)` }, elapsed);
+          StorageEngine.pushArray('history', { q: Logic.currentQ });
+        } catch (e) {
+          UIEngine.showToast('AI expand ব্যর্থ হয়েছে।');
+        } finally {
+          UIEngine.stopLoader();
+        }
+      },
+
+      buildShareMetaBlock: () => {
+        const resultArea = document.getElementById('resultArea');
+        if (!resultArea) return null;
+
+        const old = document.getElementById('shareRefMeta');
+        if (old) old.remove();
+
+        const refs = (Logic.currentAnsRefs || []).slice(0, 8);
+        const refHtml = refs.length
+          ? refs.map((r, i) => `<div style="margin-top:4px;">${i + 1}. ${String(r)}</div>`).join('')
+          : '<div style="margin-top:4px;">রেফারেন্স অনুল্লেখিত</div>';
+
+        const meta = document.createElement('div');
+        meta.id = 'shareRefMeta';
+        meta.style.marginTop = '18px';
+        meta.style.padding = '12px';
+        meta.style.border = '1px dashed var(--border-color)';
+        meta.style.borderRadius = '12px';
+        meta.style.background = 'var(--bg-main)';
+        meta.style.fontSize = '12px';
+        meta.style.color = 'var(--text-secondary)';
+        meta.innerHTML = `<b>Exact Reference Snapshot</b><div style="margin-top:6px;">প্রশ্ন: ${Logic.currentQ}</div><div style="margin-top:4px;">সোর্স: ${Logic.currentAnsSource || '-'}</div>${refHtml}`;
+        resultArea.appendChild(meta);
+        return meta;
+      },
+
+      getShareReferenceText: () => {
+        const refs = (Logic.currentAnsRefs || []).slice(0, 8);
+        if (!refs.length) return 'রেফারেন্স: অনুল্লেখিত';
+        return `রেফারেন্স:\n${refs.map((r, i) => `${i + 1}. ${r}`).join('\n')}`;
+      },
+
+      copyAns: () => {
+        navigator.clipboard.writeText(Logic.currentAnsText.replace(/<[^>]*>/g, ''));
+        UIEngine.showToast('উত্তর কপি করা হয়েছে!');
+      },
+
+      changeFontSize: (step) => {
+        const contentArea = document.getElementById('magazineContent');
+        let currentSize = parseInt(window.getComputedStyle(contentArea).fontSize);
+        if (isNaN(currentSize)) currentSize = 16;
+        let newSize = currentSize + (step * 2);
+
+        // Limits: 12px to 28px
+        if (newSize >= 12 && newSize <= 28) {
+          contentArea.style.fontSize = newSize + 'px';
+          UIEngine.showToast(`ফন্ট সাইজ ${newSize}px করা হয়েছে`);
+        } else {
+          UIEngine.showToast('ফন্ট সাইজ লিমিট পৌঁছেছে');
+        }
+      },
+
+      shareAns: async () => {
+        UIEngine.showToast('ছবি তৈরি করা হচ্ছে, অনুগ্রহ করে অপেক্ষা করুন...');
+        try {
+          const resultArea = document.getElementById('resultArea');
+          // temporarily hide non-essential elements for clean screenshot
+          const actionBar = resultArea.querySelector('.action-bar');
+          const chips = document.getElementById('suggestionChips');
+          const shareMeta = Logic.buildShareMetaBlock();
+          const referenceText = Logic.getShareReferenceText();
+
+          if (actionBar) actionBar.style.display = 'none';
+          if (chips) chips.parentNode.style.display = 'none';
+
+          const canvas = await html2canvas(resultArea, {
+            scale: 2,
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-surface'),
+            useCORS: true
+          });
+
+          if (actionBar) actionBar.style.display = 'flex';
+          if (chips) chips.parentNode.style.display = 'block';
+          if (shareMeta) shareMeta.remove();
+
+          canvas.toBlob(async (blob) => {
+            const file = new File([blob], 'islamic_knowledge.png', { type: 'image/png' });
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+              await navigator.share({
+                title: Logic.currentQ,
+                text: `প্রশ্ন: ${Logic.currentQ}\nসোর্স: ${Logic.currentAnsSource || '-'}\n\n${referenceText}\n\n(ইসলামিক জ্ঞানHub অ্যাপ থেকে)`,
+                files: [file]
+              });
+            } else {
+              // Fallback to text copy if image share not supported
+              navigator.clipboard.writeText(`প্রশ্ন: ${Logic.currentQ}\n\n${Logic.currentAnsText.replace(/<[^>]*>/g, '')}\n\n${referenceText}`);
+              UIEngine.showToast('ডিভাইসে ছবি শেয়ার সাপোর্টেড নয়, টেক্সট কপি করা হয়েছে!');
+            }
+          }, 'image/png');
+        } catch (e) {
+          console.error("Share Image Failed", e);
+          const danglingMeta = document.getElementById('shareRefMeta');
+          if (danglingMeta) danglingMeta.remove();
+          const resultArea = document.getElementById('resultArea');
+          const actionBar = resultArea ? resultArea.querySelector('.action-bar') : null;
+          const chips = document.getElementById('suggestionChips');
+          if (actionBar) actionBar.style.display = 'flex';
+          if (chips && chips.parentNode) chips.parentNode.style.display = 'block';
+          Logic.copyAns();
+          UIEngine.showToast('ত্রুটি হয়েছে, টেক্সট কপি করা হলো।');
+        }
+      },
+
+      downloadAns: async () => {
+        UIEngine.showToast('ছবি ডাউনলোড করা হচ্ছে...');
+        try {
+          const resultArea = document.getElementById('resultArea');
+          const actionBar = resultArea.querySelector('.action-bar');
+          const chips = document.getElementById('suggestionChips');
+          const shareMeta = Logic.buildShareMetaBlock();
+
+          if (actionBar) actionBar.style.display = 'none';
+          if (chips) chips.parentNode.style.display = 'none';
+
+          const canvas = await html2canvas(resultArea, {
+            scale: 2,
+            backgroundColor: getComputedStyle(document.body).getPropertyValue('--bg-surface'),
+            useCORS: true
+          });
+
+          if (actionBar) actionBar.style.display = 'flex';
+          if (chips) chips.parentNode.style.display = 'block';
+          if (shareMeta) shareMeta.remove();
+
+          const url = canvas.toDataURL('image/png');
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = "Islamic_Knowledge_" + Date.now() + ".png";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          UIEngine.showToast('ডাউনলোড সফল হয়েছে!');
+        } catch (e) {
+          console.error("Download Failed", e);
+          const danglingMeta = document.getElementById('shareRefMeta');
+          if (danglingMeta) danglingMeta.remove();
+          const resultArea = document.getElementById('resultArea');
+          const actionBar = resultArea ? resultArea.querySelector('.action-bar') : null;
+          const chips = document.getElementById('suggestionChips');
+          if (actionBar) actionBar.style.display = 'flex';
+          if (chips && chips.parentNode) chips.parentNode.style.display = 'block';
+          UIEngine.showToast('ফটো ডাউনলোডে সমস্যা হয়েছে।');
+        }
+      },
+
+      // Robust Voice Output (TTS) with Fallback
+      speakAns: () => {
+        if (Logic.isSpeaking) { Logic.stopSpeak(); return; }
+
+        const text = Logic.currentAnsText.replace(/<[^>]*>/g, '').replace(/[\u0600-\u06FF]/g, ' ').substring(0, 1500);
+
+        if (typeof responsiveVoice !== 'undefined') {
+          Logic.isSpeaking = true;
+          document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">stop_circle</span> থামুন';
+          responsiveVoice.speak(text, "Bengali Female", {
+            rate: 0.9,
+            onend: Logic.stopSpeak
+          });
+          UIEngine.showToast('পড়ানো হচ্ছে...');
+        } else if ('speechSynthesis' in window) {
+          Logic.isSpeaking = true;
+          document.getElementById('speakBtn').innerHTML = '<span class="material-symbols-rounded">stop_circle</span> থামুন';
+          const utterance = new SpeechSynthesisUtterance(text);
+          utterance.lang = 'bn-BD';
+          utterance.rate = 0.9;
+          utterance.onend = Logic.stopSpeak;
+          window.speechSynthesis.speak(utterance);
+          UIEngine.showToast('ডিভাইস ভয়েস চালু হয়েছে...');
+        } else {
+          UIEngine.showToast('আপনার ব্রাউজার Text-to-Speech সমর্থন করে না।');
+        }
+      },
+
+      stopSpeak: () => {
+        if (typeof responsiveVoice !== 'undefined') responsiveVoice.cancel();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        Logic.isSpeaking = false;
+        const btn = document.getElementById('speakBtn');
+        if (btn) btn.innerHTML = '<span class="material-symbols-rounded">volume_up</span> শুনুন';
+      },
+
+      saveBookmark: () => {
+        const success = StorageEngine.pushArray('bookmark', { q: Logic.currentQ });
+        if (success) UIEngine.showToast('বুকমার্কে সংরক্ষিত হয়েছে');
+        else UIEngine.showToast('এটি আগেই বুকমার্ক করা আছে');
+      },
+
+      verifyAns: () => {
+        const escapeHtml = (text) => {
+          return String(text || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/`/g, '&#96;');
+        };
+
+        const local = DataModule.questionMap ? DataModule.questionMap[Logic.currentQ] : null;
+        const old = document.getElementById('offlineVerifyCard');
+        if (old) old.remove();
+
+        const hasLocal = local && local.a;
+        const hadithRefs = ReferenceTools.findHadithRefs(Logic.currentAnsText || '');
+        const quranRefs = ReferenceTools.findQuranRefs(Logic.currentAnsText || '');
+        const localRefText = String((local && local.ref) || '');
+        const hadithMatchedInLocal = hadithRefs.filter(item => localRefText.includes(item.number)).length;
+
+        const detectedRefHtml = `
+          ${(quranRefs.length || hadithRefs.length) ? `
+            <div style="margin-top:10px; padding:10px; border-radius:10px; background:var(--bg-main); border:1px solid var(--border-color);">
+              <div style="font-size:13px; font-weight:700; margin-bottom:6px;">বর্তমান উত্তরের detected references</div>
+              ${quranRefs.length ? `<div style="font-size:12px; margin-bottom:6px;"><b>কুরআন:</b> ${quranRefs.map(item => `সূরা ${escapeHtml(item.surah)}:${escapeHtml(item.ayah)}`).join(' | ')}</div>` : ''}
+              ${hadithRefs.length ? `<div style="font-size:12px; margin-bottom:4px;"><b>হাদিস:</b></div>
+                <div style="display:flex; flex-wrap:wrap; gap:6px;">
+                  ${hadithRefs.map(item => {
+                    const url = HadithVerifier.getUrl(item.book, item.number);
+                    return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="btn-mini" style="text-decoration:none; padding:4px 10px;">${escapeHtml(item.book)} ${escapeHtml(item.number)}</a>`;
+                  }).join('')}
+                </div>
+                ${local && local.ref ? `<div style="font-size:11px; color:var(--text-secondary); margin-top:6px;">লোকাল রেফারেন্স নম্বর ম্যাচ: ${hadithMatchedInLocal}/${hadithRefs.length}</div>` : ''}` : ''}
+            </div>` : ''
+        }`;
+
+        let html = '';
+
+        if (hasLocal) {
+          html = `
+            <div id="offlineVerifyCard" class="islamic-embed-card" style="border-left-color:#0ea5e9;">
+              <div class="embed-header">
+                <span class="material-symbols-rounded" style="color:#0ea5e9;">policy</span>
+                <span>অফলাইন ডাটাবেজ যাচাই</span>
+                <span style="margin-left:auto; font-size:12px; background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:12px;">ম্যাচ পাওয়া গেছে</span>
+              </div>
+              <div class="embed-body">
+                <div style="font-size:14px; margin-bottom:8px;"><b>লোকাল উত্তর:</b> ${escapeHtml(local.a)}</div>
+                ${local.ref ? `<div style="font-size:13px; color:var(--text-secondary);"><b>রেফারেন্স:</b> ${escapeHtml(local.ref)}</div>` : ''}
+                ${detectedRefHtml}
+              </div>
+            </div>`;
+          UIEngine.showToast("অফলাইন ডাটাবেজে রেফারেন্স পাওয়া গেছে।");
+        } else {
+          html = `
+            <div id="offlineVerifyCard" class="islamic-embed-card" style="border-left-color:#f59e0b;">
+              <div class="embed-header">
+                <span class="material-symbols-rounded" style="color:#f59e0b;">warning</span>
+                <span>অফলাইন ডাটাবেজ যাচাই</span>
+                <span style="margin-left:auto; font-size:12px; background:#fef3c7; color:#b45309; padding:2px 8px; border-radius:12px;">লোকাল ম্যাচ নেই</span>
+              </div>
+              <div class="embed-body">
+                <div style="font-size:14px;">এই প্রশ্নের সরাসরি অফলাইন রেফারেন্স পাওয়া যায়নি। প্রয়োজনে AI verify ব্যবহার করুন।</div>
+                ${detectedRefHtml}
+              </div>
+            </div>`;
+          UIEngine.showToast("এই প্রশ্নের অফলাইন রেফারেন্স পাওয়া যায়নি।");
+        }
+
+        document.getElementById('magazineContent').insertAdjacentHTML('afterbegin', html);
+      },
+
+      verify: () => {
+        Logic.verifyAns();
+      }
+    };
+
+    // Application Bootstrap
+    window.onload = Logic.init;
+    window.UI = UIEngine;
+    window.VisionProcessor = VisionProcessor;
+    window.AIEngine = AIEngine;
+    window.Logic = Logic;
+    window.StorageEngine = StorageEngine;
+    window.AudioManager = AudioManager;
+    window.ContentEnricher = ContentEnricher;
+    window.SystemHub = SystemHub;
+    window.HadithVerifier = HadithVerifier;
+    window.ArabicAssist = ArabicAssist;
+    window.ReferenceTools = ReferenceTools;
+
+  </script>
+</body>
+
+</html>
