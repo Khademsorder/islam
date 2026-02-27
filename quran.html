@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>কুরআন ও হাদিস · সম্পূর্ণ সংস্করণ</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0,1" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- ResponsiveVoice for TTS -->
+    <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Main Quran Module (updated) -->
+    <script src="quran-module.js"></script>
+
+    <!-- PWA Meta -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0b5e42" id="meta-theme-color">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <style>
+        /* ========== GLOBAL STYLES (Same as islamic.html for consistency) ========== */
+        :root {
+            --bg-main: #f4f7f6;
+            --bg-surface: #ffffff;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-primary: #0b5e42;
+            --accent-hover: #084c35;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 8px 16px rgba(0,0,0,0.1);
+            --mag-3-bg: #e3f2fd;
+            --mag-3-border: #64b5f6;
+        }
+        [data-theme="dark"] {
+            --bg-main: #0f172a;
+            --bg-surface: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --accent-primary: #10b981;
+            --accent-hover: #059669;
+            --mag-3-bg: #78350f;
+            --mag-3-border: #d97706;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Noto Sans Bengali', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            line-height: 1.6;
+            padding-bottom: 70px;
+            overflow-x: hidden;
+        }
+        .container { margin: 0 auto; padding: 0 16px; max-width: 900px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 24px; background: var(--bg-surface);
+            border-bottom: 2px solid var(--accent-primary);
+            border-radius: 0 0 24px 24px; margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .logo { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; color: var(--accent-primary); cursor: pointer; }
+        .icon-btn {
+            background: transparent; color: var(--text-secondary); cursor: pointer;
+            padding: 10px; border-radius: 50%; border: none; transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .icon-btn:hover { background: var(--border-color); color: var(--accent-primary); }
+        .tabs {
+            display: flex; gap: 12px; margin-bottom: 24px; overflow-x: auto; padding-bottom: 8px;
+        }
+        .tab {
+            padding: 10px 24px; background: var(--bg-surface); border: 1px solid var(--border-color);
+            border-radius: 50px; cursor: pointer; font-weight: 600; white-space: nowrap;
+            transition: 0.3s; display: flex; align-items: center; gap: 8px; color: var(--text-secondary);
+        }
+        .tab.active { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); box-shadow: 0 4px 12px rgba(11,94,66,0.3); }
+        .grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding-bottom: 40px;
+        }
+        .surah-card {
+            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 16px; display: flex; align-items: center; justify-content: space-between;
+            cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-sm);
+        }
+        .surah-card:hover { transform: translateY(-4px); border-color: var(--accent-primary); box-shadow: var(--shadow-md); }
+        .surah-num {
+            background: var(--bg-main); color: var(--text-secondary); width: 40px; height: 40px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;
+        }
+        .surah-name { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+        .surah-sub { font-size: 13px; color: var(--text-secondary); }
+        .offline-badge {
+            font-size: 12px; background: #ecfdf5; color: #047857; padding: 2px 8px;
+            border-radius: 10px; margin-left: 8px; border: 1px solid #10b981; display: none;
+        }
+        .is-offline .offline-badge { display: inline-block; }
+        .btn-outline {
+            padding: 10px 20px; border: 2px solid var(--border-color); border-radius: 50px;
+            background: var(--bg-surface); cursor: pointer; display: inline-flex; align-items: center;
+            gap: 8px; color: var(--text-primary); font-weight: 600; transition: 0.3s;
+        }
+        .btn-outline:hover { background: var(--accent-primary); color: #fff; border-color: var(--accent-primary); }
+        .loader { display: none; text-align: center; padding: 40px; color: var(--text-secondary); }
+        .spinner {
+            border: 4px solid var(--border-color); border-top: 4px solid var(--accent-primary);
+            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 16px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .toast {
+            position: fixed; bottom: -80px; left: 50%; transform: translateX(-50%);
+            background: var(--text-primary); color: var(--bg-surface); padding: 14px 28px;
+            border-radius: 50px; transition: bottom 0.4s; z-index: 2000; font-weight: bold;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px;
+        }
+        .toast.show { bottom: 32px; }
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed; bottom: 0; left: 0; right: 0; height: 65px;
+            background: var(--bg-surface); display: flex; justify-content: space-around;
+            align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 1000;
+            border-top: 1px solid var(--border-color);
+        }
+        .nav-item {
+            display: flex; flex-direction: column; align-items: center; color: var(--text-secondary);
+            text-decoration: none; font-size: 11px; font-weight: 600; cursor: pointer; flex: 1; padding: 8px 0;
+        }
+        .nav-item .material-symbols-rounded { font-size: 24px; margin-bottom: 4px; }
+        .nav-item.active { color: var(--accent-primary); }
+        .nav-item.active .material-symbols-rounded { font-variation-settings: 'FILL' 1; }
+        /* Sidebar */
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);
+            z-index: 1999; opacity: 0; pointer-events: none; transition: 0.3s; backdrop-filter: blur(2px);
+        }
+        .sidebar-overlay.show { opacity: 1; pointer-events: auto; }
+        .sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0; width: 280px; background: var(--bg-surface);
+            z-index: 2000; transform: translateX(-100%); transition: 0.3s; box-shadow: var(--shadow-md);
+            display: flex; flex-direction: column;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .sb-header {
+            padding: 24px; background: var(--accent-primary); color: #fff;
+            display: flex; flex-direction: column; gap: 12px; border-bottom-right-radius: 20px;
+        }
+        .sb-content { padding: 16px; flex: 1; overflow-y: auto; }
+        .sb-item {
+            display: flex; align-items: center; gap: 16px; padding: 14px 16px; color: var(--text-primary);
+            text-decoration: none; border-radius: 12px; font-weight: 600; margin-bottom: 8px; cursor: pointer;
+        }
+        .sb-item:hover, .sb-item.active { background: var(--bg-main); color: var(--accent-primary); }
+        /* New elements for quran.html */
+        .qari-selector {
+            display: flex; align-items: center; gap: 10px; background: var(--bg-surface);
+            padding: 8px 16px; border-radius: 30px; border: 1px solid var(--border-color);
+            margin-bottom: 20px; flex-wrap: wrap;
+        }
+        .qari-selector select {
+            padding: 8px 12px; border-radius: 20px; border: 1px solid var(--border-color);
+            background: var(--bg-main); color: var(--text-primary); font-family: inherit;
+        }
+        .auto-toggle {
+            display: flex; align-items: center; gap: 8px; margin-left: auto;
+        }
+        .auto-toggle button {
+            padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color);
+            background: var(--bg-main); cursor: pointer; font-weight: 600;
+        }
+        .auto-toggle button.active { background: var(--accent-primary); color: white; border-color: var(--accent-primary); }
+        /* Topic grid */
+        .topic-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 20px;
+        }
+        .topic-card {
+            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 16px; cursor: pointer; text-align: center; transition: 0.3s; border-left: 4px solid #f59e0b;
+        }
+        .topic-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .topic-card .count { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+        .hadith-item {
+            background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 16px; margin-bottom: 16px; border-left: 4px solid #f59e0b;
+        }
+        .hadith-item .header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: var(--text-secondary); }
+        .hadith-item .grade { background: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px; }
+        /* Reader view */
+        #readerView { display: none; padding-bottom: 60px; }
+        .reader-header { text-align: center; margin-bottom: 32px; background: var(--bg-surface); padding: 24px; border-radius: 20px; border: 1px solid var(--border-color); }
+        .bismillah { font-family: 'Scheherazade New', serif; font-size: 32px; margin: 24px 0; text-align: center; }
+        .ayah-card {
+            background: var(--bg-surface); border-radius: 16px; margin-bottom: 16px; padding: 20px;
+            border: 1px solid var(--border-color); border-left: 4px solid var(--accent-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .ayah-header { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border-color); padding-bottom: 12px; margin-bottom: 16px; }
+        .ayah-arabic { font-family: 'Scheherazade New', serif; font-size: 34px; line-height: 2; text-align: right; direction: rtl; margin-bottom: 16px; }
+        .ayah-bangla { font-size: 18px; color: var(--text-secondary); line-height: 1.6; }
+        .ayah-pronunciation { font-size: 16px; color: #6d28d9; line-height: 1.6; margin-top: 10px; border-left: 3px solid #c4b5fd; padding-left: 10px; }
+        .ayah-english { font-size: 16px; color: #1d4ed8; line-height: 1.6; margin-top: 10px; border-left: 3px solid #93c5fd; padding-left: 10px; }
+        .reader-toggle-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; justify-content: center; }
+        .toggle-chip {
+            border: 1px solid var(--border-color); border-radius: 999px; padding: 6px 12px;
+            font-size: 12px; font-weight: 700; background: var(--bg-main); color: var(--text-primary); cursor: pointer;
+        }
+        .toggle-chip.active { background: var(--accent-primary); color: #fff; }
+        /* Desktop */
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 0; padding-left: 260px; }
+            .sidebar { transform: translateX(0) !important; width: 260px; border-right: 1px solid var(--border-color); }
+            .sidebar-overlay { display: none !important; }
+            .menu-btn { display: none !important; }
+        }
+    </style>
+</head>
+<body data-theme="light">
+    <!-- Sidebar (same as islamic.html) -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sb-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <img src="logo.png" alt="Logo" style="width: 48px; height: 48px; border-radius: 12px; background: white; padding: 2px;">
+                <div><div style="font-size: 18px; font-weight: bold;">Islamic Hub</div><div style="font-size: 12px; opacity: 0.9;">v5.0 Complete</div></div>
+            </div>
+        </div>
+        <div class="sb-content no-scrollbar">
+            <div class="sb-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">home</span> মূল পাতা</div>
+            <div class="sb-item active" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded">menu_book</span> কুরআন ও হাদিস</div>
+            <div class="sb-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">history</span> ইতিহাস ও বুকমার্ক</div>
+            <div class="sb-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">settings</span> সেটিংস</div>
+            <div style="height:1px; background:var(--border-color); margin:16px 0;"></div>
+            <div class="sb-item" onclick="toggleTheme()"><span class="material-symbols-rounded" id="sbThemeIcon">dark_mode</span> থিম পরিবর্তন</div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">home</span><span>হোম</span></div>
+        <div class="nav-item active" onclick="window.location.href='quran.html'"><span class="material-symbols-rounded">menu_book</span><span>কুরআন</span></div>
+        <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">bookmark</span><span>সেভড</span></div>
+        <div class="nav-item" onclick="window.location.href='islamic.html'"><span class="material-symbols-rounded">settings</span><span>সেটিংস</span></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">
+                <button class="icon-btn menu-btn" onclick="toggleSidebar()" style="padding:4px; margin-right:4px;"><span class="material-symbols-rounded">menu</span></button>
+                <span class="material-symbols-rounded" onclick="window.location.href='islamic.html'">arrow_back</span>
+                কুরআন ও হাদিস
+            </div>
+            <div style="display:flex; gap:8px;">
+                <button class="icon-btn" onclick="toggleTheme()"><span class="material-symbols-rounded" id="themeIcon">dark_mode</span></button>
+            </div>
+        </header>
+
+        <!-- Qari Selector and Auto-Advance Toggle -->
+        <div class="qari-selector">
+            <span class="material-symbols-rounded">audio_file</span>
+            <select id="qariSelect" onchange="changeQari(this.value)"></select>
+            <div class="auto-toggle">
+                <span>অটো অ্যাডভান্স</span>
+                <button id="autoToggleBtn" onclick="toggleAutoAdvance()" class="active">চালু</button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('quran', this)"><span class="material-symbols-rounded">menu_book</span> কুরআন</div>
+            <div class="tab" onclick="switchTab('hadith', this)"><span class=" material-symbols-rounded">library_books</span> হাদিস গ্রন্থ</div>
+            <div class="tab" onclick="switchTab('topics', this)"><span class="material-symbols-rounded">topic</span> বিষয় ভিত্তিক হাদিস</div>
+        </div>
+
+        <!-- Quran View -->
+        <div id="quranView" style="display:block;">
+            <div class="search-bar" style="display:flex; align-items:center; background:var(--bg-surface); border-radius:50px; padding:8px 20px; margin-bottom:24px; border:2px solid transparent;">
+                <span class="material-symbols-rounded" style="color:var(--text-secondary); margin-right:12px;">search</span>
+                <input type="text" id="searchInput" placeholder="সূরা খুঁজুন..." onkeyup="filterSurahs()" style="flex:1; background:transparent; border:none; color:var(--text-primary); font-size:16px; outline:none;">
+            </div>
+            <div class="loader" id="mainLoader"><div class="spinner"></div>লোড হচ্ছে...</div>
+            <div class="grid" id="contentGrid"></div>
+        </div>
+
+        <!-- Hadith Books View -->
+        <div id="hadithView" style="display:none;">
+            <div class="grid" id="hadithGrid"></div>
+        </div>
+
+        <!-- Topics View -->
+        <div id="topicsView" style="display:none;">
+            <div class="topic-grid" id="topicGrid"></div>
+            <div id="topicHadithList" style="display:none; margin-top:20px;">
+                <button class="btn-outline" onclick="backToTopics()"><span class="material-symbols-rounded">arrow_back</span> বিষয় তালিকায় ফিরুন</button>
+                <h3 id="topicTitle" style="margin:20px 0; color:var(--accent-primary);"></h3>
+                <div id="topicHadithContainer"></div>
+            </div>
+        </div>
+
+        <!-- Reader View -->
+        <div id="readerView">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <button class="btn-outline" style="border-color:var(--accent-primary);" onclick="closeReader()"><span class="material-symbols-rounded">arrow_back</span> ফিরে যান</button>
+                <div style="display:flex; gap:8px;" id="readerActionButtons"></div>
+            </div>
+            <div class="reader-header" id="readerHeader"></div>
+            <div class="bismillah">بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+            <div id="ayahsContainer"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"><span class="material-symbols-rounded">info</span> <span id="toastMsg">বার্তা</span></div>
+
+    <script>
+        // ========== GLOBAL VARIABLES ==========
+        let allSurahs = [];
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let currentTab = 'quran';
+        let activeReaderItem = 1;
+        let maxReaderItems = 0;
+        let readerDataType = 'quran';
+        let currentReaderContext = null;
+
+        // ========== THEME & SIDEBAR ==========
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            document.getElementById('themeIcon').innerText = currentTheme === 'dark' ? 'light_mode' : 'dark_mode';
+            document.getElementById('sbThemeIcon').innerText = currentTheme === 'dark' ? 'light_mode' : 'dark_mode';
+            document.getElementById('meta-theme-color').content = currentTheme === 'dark' ? '#064e3b' : '#0b5e42';
+        }
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        // ========== TOAST ==========
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        // ========== INIT ==========
+        window.onload = async function() {
+            await IslamicModule.init();
+            initQariSelect();
+            loadQuranList();
+            setupHistoryHandling();
+            if (localStorage.getItem('theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeIcon').innerText = 'light_mode';
+                document.getElementById('sbThemeIcon').innerText = 'light_mode';
+            }
+        };
+
+        // ========== QARI & AUTO-ADVANCE ==========
+        function initQariSelect() {
+            const qariList = IslamicModule.Quran.getQariList();
+            const select = document.getElementById('qariSelect');
+            const current = IslamicModule.Quran.getCurrentQari();
+            select.innerHTML = qariList.map(q => `<option value="${q.id}" ${q.id === current ? 'selected' : ''}>${q.name}</option>`).join('');
+        }
+        function changeQari(qariId) {
+            IslamicModule.Quran.setQari(qariId);
+            showToast('ক্বারি পরিবর্তন করা হয়েছে');
+        }
+        function toggleAutoAdvance() {
+            const state = IslamicModule.Quran.toggleAutoAdvance();
+            const btn = document.getElementById('autoToggleBtn');
+            btn.textContent = state ? 'চালু' : 'বন্ধ';
+            btn.classList.toggle('active', state);
+            showToast(`অটো অ্যাডভান্স ${state ? 'চালু' : 'বন্ধ'} করা হয়েছে`);
+        }
+
+        // ========== TAB SWITCHING ==========
+        function switchTab(tab, element) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+            currentTab = tab;
+            document.getElementById('quranView').style.display = tab === 'quran' ? 'block' : 'none';
+            document.getElementById('hadithView').style.display = tab === 'hadith' ? 'block' : 'none';
+            document.getElementById('topicsView').style.display = tab === 'topics' ? 'block' : 'none';
+            if (tab === 'hadith') loadHadithList();
+            if (tab === 'topics') loadTopics();
+        }
+
+        // ========== QURAN ==========
+        async function loadQuranList() {
+            document.getElementById('mainLoader').style.display = 'block';
+            allSurahs = await IslamicModule.Quran.getMetadata();
+            renderSurahList(allSurahs);
+            document.getElementById('mainLoader').style.display = 'none';
+        }
+        function renderSurahList(list) {
+            const grid = document.getElementById('contentGrid');
+            if (!list.length) { grid.innerHTML = '<div style="text-align:center; padding:40px;">কিছু পাওয়া যায়নি</div>'; return; }
+            grid.innerHTML = list.map(s => `
+                <div class="surah-card" id="surah-card-${s.number}" onclick="openSurah(${s.number})">
+                    <div style="display:flex; align-items:center; gap:16px;">
+                        <div class="surah-num">${s.number}</div>
+                        <div>
+                            <div class="surah-name">${s.englishName} <span class="offline-badge"><span class="material-symbols-rounded" style="font-size:12px;">cloud_done</span> অফলাইন</span></div>
+                            <div class="surah-sub">${s.name} • ${s.numberOfAyahs} আয়াত • ${s.revelationType === 'Meccan' ? 'মাক্কী' : 'মাদানী'}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function filterSurahs() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allSurahs.filter(s => s.englishName.toLowerCase().includes(q) || s.name.includes(q) || s.number.toString() === q);
+            renderSurahList(filtered);
+        }
+
+        // ========== HADITH BOOKS ==========
+        async function loadHadithList() {
+            const grid = document.getElementById('hadithGrid');
+            grid.innerHTML = '<div class="loader"><div class="spinner"></div>লোড হচ্ছে...</div>';
+            const books = await IslamicModule.Hadith.getBookList();
+            grid.innerHTML = books.map(b => `
+                <div class="surah-card" id="hadith-book-${b.id}" style="${b.isDownloaded ? 'border-left:4px solid #10b981;' : ''}">
+                    <div style="width:100%;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <div><div class="surah-name">${b.name}</div><div class="surah-sub">${b.count} টি হাদিস</div></div>
+                            <div style="background:#fef3c7; color:#b45309; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:12px;"><span class="material-symbols-rounded">library_books</span></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed var(--border-color); padding-top:12px;">
+                            ${b.isDownloaded ? `
+                                <span style="font-size:12px; color:#10b981; display:flex; align-items:center; gap:4px;"><span class="material-symbols-rounded">check_circle</span> অফলাইনে সেভ করা</span>
+                                <button class="embed-btn" onclick="openHadithBook('${b.id}', '${b.name}', ${b.count})">পড়ুন <span class="material-symbols-rounded">arrow_forward</span></button>
+                            ` : `
+                                <span style="font-size:12px; color:var(--text-secondary);">ইন্টারনেট প্রয়োজন</span>
+                                <button class="embed-btn" onclick="startHadithDownload('${b.id}')"><span class="material-symbols-rounded">download</span> ডাউনলোড</button>
+                            `}
+                        </div>
+                        <div id="progress-${b.id}" style="display:none; margin-top:10px; height:4px; background:var(--border-color); border-radius:2px;"><div style="height:100%; width:0%; background:var(--accent-primary);"></div></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        async function startHadithDownload(bookId) {
+            const btn = document.querySelector(`#hadith-book-${bookId} .embed-btn`);
+            const prog = document.getElementById(`progress-${bookId}`);
+            btn.style.display = 'none';
+            prog.style.display = 'block';
+            const success = await IslamicModule.Hadith.downloadBook(bookId, (percent, msg) => {
+                prog.querySelector('div').style.width = percent + '%';
+            });
+            if (success) {
+                showToast('ডাউনলোড সফল!');
+                loadHadithList();
+            } else {
+                prog.style.display = 'none';
+                btn.style.display = 'inline-flex';
+            }
+        }
+        function openHadithBook(bookId, bookName, count) {
+            currentTab = 'hadith';
+            document.getElementById('quranView').style.display = 'none';
+            document.getElementById('hadithView').style.display = 'none';
+            document.getElementById('topicsView').style.display = 'none';
+            document.getElementById('readerView').style.display = 'block';
+            // Simplified: just show first 50 hadiths (you can expand later)
+            // For brevity, we'll just load a few
+        }
+
+        // ========== TOPICS ==========
+        async function loadTopics() {
+            const topics = await IslamicModule.Hadith.getTopicListWithCounts();
+            const grid = document.getElementById('topicGrid');
+            grid.innerHTML = topics.map(t => `
+                <div class="topic-card" onclick="showTopicHadith('${t.id}', '${t.name}')">
+                    <span class="material-symbols-rounded" style="color:#f59e0b; font-size:32px;">topic</span>
+                    <div style="font-weight:700; margin-top:8px;">${t.name}</div>
+                    <div class="count">${t.count} টি হাদিস</div>
+                </div>
+            `).join('');
+            document.getElementById('topicHadithList').style.display = 'none';
+            grid.style.display = 'grid';
+        }
+        async function showTopicHadith(topicId, topicName) {
+            document.getElementById('topicGrid').style.display = 'none';
+            const listDiv = document.getElementById('topicHadithList');
+            const container = document.getElementById('topicHadithContainer');
+            document.getElementById('topicTitle').textContent = topicName;
+            container.innerHTML = '<div class="loader"><div class="spinner"></div>লোড হচ্ছে...</div>';
+            listDiv.style.display = 'block';
+            const hadiths = await IslamicModule.Hadith.getHadithsByTopic(topicId);
+            if (!hadiths.length) {
+                container.innerHTML = '<p style="text-align:center; padding:40px;">এই বিষয়ে কোনো হাদিস এখনও ডাউনলোড হয়নি। প্রথমে হাদিসের বই ডাউনলোড করুন।</p>';
+                return;
+            }
+            container.innerHTML = hadiths.map(h => `
+                <div class="hadith-item">
+                    <div class="header">
+                        <span>${h.book} - ${h.number}</span>
+                        <span class="grade">${h.grade}</span>
+                    </div>
+                    <div>${h.bangla}</div>
+                    <div style="margin-top:10px;">
+                        <button class="embed-btn" onclick="IslamicModule.UI.playTTS('${h.bangla.replace(/'/g, "\\'").replace(/"/g, '&quot;')}', this)">শুনুন</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function backToTopics() {
+            document.getElementById('topicHadithList').style.display = 'none';
+            document.getElementById('topicGrid').style.display = 'grid';
+        }
+
+        // ========== READER (Quran) ==========
+        async function openSurah(id) {
+            document.getElementById('quranView').style.display = 'none';
+            document.getElementById('readerView').style.display = 'block';
+            document.getElementById('readerHeader').innerHTML = '<div class="spinner"></div>';
+            const surah = await IslamicModule.Quran.getSurah(id);
+            if (!surah) { showToast("সূরা লোড হয়নি"); closeReader(); return; }
+            document.getElementById('readerHeader').innerHTML = `
+                <h1 style="font-size:28px; color:var(--accent-primary);">${surah.englishName}</h1>
+                <div style="font-size:18px; font-family:'Amiri';">${surah.name}</div>
+                <div style="color:var(--text-secondary);">${surah.ayahs.length} আয়াত</div>
+            `;
+            let html = '';
+            surah.ayahs.forEach(a => {
+                html += `
+                <div class="ayah-card" id="ayah-${a.numberInSurah}">
+                    <div class="ayah-header">
+                        <span style="font-weight:bold; background:var(--bg-main); padding:4px 12px; border-radius:20px;">আয়াত ${a.numberInSurah}</span>
+                        <div style="display:flex; gap:8px;">
+                            <button class="icon-btn" onclick="playAyahAudio('${a.audio}', ${a.numberInSurah}, ${surah.ayahs.length})"><span class="material-symbols-rounded">play_circle</span></button>
+                            <button class="icon-btn" onclick="playTTS('${a.bangla.replace(/'/g, "\\'")}', this, 'bn-BD')"><span class="material-symbols-rounded">record_voice_over</span></button>
+                        </div>
+                    </div>
+                    <div class="ayah-arabic">${a.arabic} ۝</div>
+                    <div class="ayah-pronunciation">${a.transliteration || ''}</div>
+                    <div class="ayah-bangla">${a.bangla}</div>
+                    <div class="ayah-english">${a.english || ''}</div>
+                </div>`;
+            });
+            document.getElementById('ayahsContainer').innerHTML = html;
+        }
+        function playAyahAudio(url, ayahNo, total) {
+            IslamicModule.UI.playAudio(url, event.currentTarget, () => {
+                if (IslamicModule.Quran.getAutoAdvance() && ayahNo < total) {
+                    document.getElementById(`ayah-${ayahNo+1}`).scrollIntoView({behavior:'smooth'});
+                    // Trigger next audio automatically? We can simulate click on next ayah's play button
+                    setTimeout(() => {
+                        const nextBtn = document.querySelector(`#ayah-${ayahNo+1} .icon-btn`);
+                        if (nextBtn) nextBtn.click();
+                    }, 1000);
+                }
+            });
+        }
+        function playTTS(text, btn, lang) {
+            IslamicModule.UI.playTTS(text, btn, lang);
+        }
+        function closeReader() {
+            document.getElementById('readerView').style.display = 'none';
+            document.getElementById('quranView').style.display = 'block';
+        }
+
+        // ========== HISTORY ==========
+        function setupHistoryHandling() {
+            history.replaceState({ view: 'list', tab: 'quran' }, '');
+            window.addEventListener('popstate', (e) => {
+                const st = e.state || { view: 'list', tab: 'quran' };
+                if (st.view === 'reader') closeReader();
+                else {
+                    const tabEl = document.querySelectorAll('.tab')[0];
+                    switchTab('quran', tabEl);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
